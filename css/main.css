@@ -1,0 +1,96 @@
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-size: 13px;
+}
+
+.container {
+     margin-top: 50px;
+}
+
+.logo {
+     width: 100%;
+     height: auto;
+}
+td input, th input, td textarea{
+     width: 100%;
+     padding: 5px;
+     text-align: start;
+     justify-content: left;
+     border: none;
+     overflow: hidden;
+}
+td input
+th .topic {
+          border-top: none;
+          font-size: 50px;
+          font-weight: 500;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+     }
+span {
+     padding: 20px 0px;
+     text-align: left;
+     /* padding-bottom: 500px; */
+}
+td span{
+     position: absolute;
+     text-align: center;
+     justify-content: center;
+}
+table {
+     width: 100%;
+     border-collapse: collapse;
+}
+
+th,
+td {
+     line-height: 25px;
+     padding: 5px;
+     text-align: left;
+     /* border-bottom: 1px solid #ddd; */
+}
+
+td:empty {
+     width: 100px;
+     height: 50px;
+}
+/* td,tr{
+     
+     width: auto;
+     height: 50px;
+} */
+img {
+     max-width: 100%;
+     height: auto;
+}
+
+#file {
+     display: none;
+}
+
+.student_photo {
+     width: 150px;
+     height: 150px;
+     object-position: center;
+     object-fit: fill;
+}
+
+.file {
+     display: none;
+}
+
+@media screen and (max-width: 600px) {
+     table {
+          overflow-x: auto;
+          display: block;
+     }
+
+     th,
+     td {
+          min-width: 100px;
+     }
+
+}
