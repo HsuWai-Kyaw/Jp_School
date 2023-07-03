@@ -1,5 +1,5 @@
 <?php
 $host = "localhost";
-$dbname = "datastorage_db";
+$dbname = "goen_db";
 $user = "root";
 $password = "";

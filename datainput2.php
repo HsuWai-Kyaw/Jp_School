@@ -106,7 +106,8 @@ if (isset($_POST['submit'])) {
      $result = $statement2->execute();
 
      if ($result) {
-          echo "Data Stored";
+          // echo "Data Stored";
+          header("location:index.php");
      } else {
           $errors[] = "Error occurred while storing data";
      }
@@ -117,18 +118,18 @@ if (isset($_POST['submit'])) {
 
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/main.css">
-<form action="index2.php" method="POST" enctype="multipart/form-data">
+<form action="datainput2.php" method="POST" enctype="multipart/form-data">
      <input type="hidden" name="id" value="<?php echo $id ?>">
      <div class="container shadow shadow">
-          <b><span>ပညာရေးသမိုင်း</span></b>
+          <b><span>学歴</span></b>
           <table class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td>စတင်သည့်ခုနှစ်</td>
-                         <td>ပြီးသည့်ခုနှစ်</td>
-                         <td colspan="2">ကျောင်းအမည်</td>
-                         <td colspan="2">အထူးပြုဘာသာရပ်</td>
-                         <td>အရည်အချင်း</td>
+                         <td>開始年</td>
+                         <td>終了年</td>
+                         <td colspan="2">学校名</td>
+                         <td colspan="2">専門</td>
+                         <td>免許・資</td>
                     </tr>
 
                </thead>
@@ -157,15 +158,15 @@ if (isset($_POST['submit'])) {
                </tbody>
           </table>
 
-          <b><span>အလုပ်အတွေ့အကြုံ</span></b>
+          <b><span>職歴</span></b>
           <table class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td>စတင်သည့်ခုနှစ်</td>
-                         <td>ပြီးသည့်ခုနှစ်</td>
-                         <td colspan="2">companyအမည်</td>
-                         <td colspan="2">အလုပ်အမျိူးအစားနှင့်ရာထူး</td>
-                         <td>လစာ</td>
+                         <td>開始年</td>
+                         <td>終了年</td>
+                         <td colspan="2">会社名</td>
+                         <td colspan="2">仕事内容</td>
+                         <td>給料</td>
                     </tr>
 
                </thead>
@@ -188,17 +189,17 @@ if (isset($_POST['submit'])) {
                     </tr>
                </tbody>
           </table>
-          <b><span>မိသားစုဝင်အချက်အလက်</span></b>
+          <span><b>家族</b></span>
 
           <table class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td colspan="2">မိသားစုဝင်နာမည်</td>
-                         <td>တော်စပ်ပုံ</td>
-                         <td>အသက်</td>
-                         <td>အလုပ်အကိုင်</td>
-                         <td>အတူနေ</td>
-                         <td>ခွဲနေ</td>
+                         <td colspan="2">家族氏名</td>
+                         <td>続柄</td>
+                         <td>年齢</td>
+                         <td>職業</td>
+                         <td>同居</td>
+                         <td>別居</td>
                     </tr>
 
                </thead>
@@ -208,42 +209,77 @@ if (isset($_POST['submit'])) {
                          <td><input type="text" name="family_member_type" id=""></td>
                          <td><input type="number" name="family_member_age" min="1" max="90" id=""></td>
                          <td><input type="text" name="family_member_job" id=""></td>
-                         <td><input type="radio" name="rdostay" id="" value="living">
+
+                         <td>
+                              <input type="radio" name="rdostay" id="live_radio" value="living"
+                                   onclick="handleRadioSelection(this)">
                          </td>
-                         <td><input type="radio" name="rdostay" id="" value="stay_apart"></td>
+                         <td>
+                              <input type="radio" name="rdostay" id="stay_apart_radio" value="stay_apart"
+                                   onclick="handleRadioSelection(this)">
+                         </td>
                     </tr>
                     <tr>
                          <td colspan="2"><input type="text" name="family_member_2" id=""></td>
                          <td><input type="text" name="family_member_type_2" id=""></td>
                          <td><input type="number" name="family_member_age_2" min="1" max="90" id=""></td>
                          <td><input type="text" name="family_member_job_2" id=""></td>
-                         <td><input type="radio" name="rdostay_2" id="" value="living_2">
+
+                         <td>
+                              <input type="radio" name="rdostay_2" id="live_radio_2" value="living"
+                                   onclick="handleRadioSelection(this)">
                          </td>
-                         <td><input type="radio" name="rdostay_2" id="" value="stay_apart_2"></td>
+                         <td>
+                              <input type="radio" name="rdostay_2" id="stay_apart_radio_2" value="stay_apart"
+                                   onclick="handleRadioSelection(this)">
+                         </td>
+
+
                     </tr>
                     <tr>
                          <td colspan="2"><input type="text" name="family_member_3" id=""></td>
                          <td><input type="text" name="family_member_type_3" id=""></td>
                          <td><input type="number" name="family_member_age_3" min="1" max="90" id=""></td>
                          <td><input type="text" name="family_member_job_3" id=""></td>
-                         <td><input type="radio" name="rdostay_3" id="" value="living_3">
+                         <td>
+                              <input type="radio" name="rdostay_3" id="live_radio_3" value="living"
+                                   onclick="handleRadioSelection(this)">
                          </td>
-                         <td><input type="radio" name="rdostay_3" id="" value="stay_apart_3"></td>
+                         <td>
+                              <input type="radio" name="rdostay_3" id="stay_apart_radio_3" value="stay_apart"
+                                   onclick="handleRadioSelection(this)">
+                         </td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဂျပန်မှာဆွေမျိူးရှိသလား</td>
+                         <td colspan="2">在日親戚？</td>
                          <td colspan="2">
-                              <input type="radio" name="rdorelative" id="" value="1">ရှိ
-                              <input type="radio" name="rdorelative" id="" value="0">မရှိ
+                              <div class="d-flex justify-content-evenly pt-4">
+                                   <div>
+                                        <label for="yes">有</label>
+                                        <input type="radio" name="rdorelative" value="有" style="width:10px;">
+                                   </div>
+                                   <div>
+                                        <label for="no">無し</label>
+                                        <input type="radio" name="rdorelative" value="無し" style="width:10px;">
+                                   </div>
+                              </div>
                          </td>
-                         <td colspan="2">ရှိပါက တော်စပ်ပုံ</td>
+                         <td colspan="2">有るばい、誰？</td>
                          <td><input type="text" name="jp_family_member" id=""></td>
                     </tr>
                     <tr>
-                         <td colspan="4">ဂျပန်သို့သွားရောက်ရန် မိသားစုသဘောထား</td>
+                         <td colspan="4">日本へ行くことに家族は？</td>
                          <td colspan="3">
-                              <input type="radio" name="rdoaccept" id="" value="1">သဘောတူ
-                              <input type="radio" name="rdoaccept" id="" value="0">သဘောမတူ
+                              <div class="d-flex justify-content-evenly pt-4">
+                                   <div>
+                                        <label for="yes">賛成</label>
+                                        <input type="radio" name="rdoaccept" value="賛成" style="width:10px;">
+                                   </div>
+                                   <div>
+                                        <label for="no">反対</label>
+                                        <input type="radio" name="rdoaccept" value="反対" style="width:10px;">
+                                   </div>
+                              </div>
                          </td>
                     </tr>
                </tbody>
@@ -255,6 +291,40 @@ if (isset($_POST['submit'])) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+function handleRadioSelection(radio) {
+     var liveRadio = document.getElementById("live_radio");
+     var stayApartRadio = document.getElementById("stay_apart_radio");
+
+     if (radio.value === "living") {
+          stayApartRadio.checked = false;
+     } else if (radio.value === "stay_apart") {
+          liveRadio.checked = false;
+     }
+}
+
+function handleRadioSelection(radio) {
+     var liveRadio_2 = document.getElementById("live_radio_2");
+     var stayApartRadio_2 = document.getElementById("stay_apart_radio_3");
+
+     if (radio.value === "living") {
+          stayApartRadio_2.checked = false;
+     } else if (radio.value === "stay_apart") {
+          liveRadio_2.checked = false;
+     }
+}
+
+function handleRadioSelection(radio) {
+     var liveRadio_3 = document.getElementById("live_radio");
+     var stayApartRadio_3 = document.getElementById("stay_apart_radio");
+
+     if (radio.value === "living") {
+          stayApartRadio_3.checked = false;
+     } else if (radio.value === "stay_apart") {
+          liveRadio_3.checked = false;
+     }
+}
+</script>
 <!-- <script type="text/javascript">
      $(document).ready(function() {
           $(".district").change(function() {

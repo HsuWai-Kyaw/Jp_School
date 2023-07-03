@@ -1,413 +1,146 @@
 <?php
 require "server/db.php";
 
-$errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-     if (isset($_POST['submit'])) {
-          $id = $_POST['id'];
-          $student_id = $_POST['student_id'];
-          $photo = $_FILES['photo'];
-          $pname = $_FILES['photo']['name'];
-          $tmp_name = $_FILES['photo']['tmp_name'];
-          move_uploaded_file($tmp_name, "img/$pname");
-          $name = $_POST['student_name'];
-          $kana_name = $_POST['kana_name'];
-          $gender = $_POST['rdogender'];
-          $dob = $_POST['dob'];
-          $age = $_POST['age'];
-          $country = $_POST['country'];
-          $religion = $_POST['religion'];
-          $district_id = $_POST['district_id'];
-          $passport = $_POST['passport'];
-          $address = $_POST['address'];
-          $per_address = $_POST['per_address'];
-          $tel = $_POST['tel'];
-          $start_date = $_POST['start_date'];
-          $jp_lan_skill = $_POST['jp_lan_skill'];
-          $height = $_POST['height'];
-          $weight = $_POST['weight'];
-          $marriage = $_POST['rdomarriage'];
-          $blood_type = $_POST['blood_type'];
-          $eye_test = $_POST['eye_test'];
-          $color_blind = $_POST['rdocolorblind'];
-          $hand = $_POST['rdohand'];
-          $cook = $_POST['rdocook'];
-          $disease = $_POST['rdodisease'];
-          $tattoo = $_POST['rdotattoo'];
-          $smoke = $_POST['rdosmoke'];
-          $drunk = $_POST['rdodrunk'];
-          $languages = $_POST['languages'];
-          $certificate = $_POST['certificate'];
-          $objective = $_POST['objective'];
-          $teamwork = $_POST['rdoteamwork'];
-          $family_income = $_POST['family_income'];
-          $type_of_visa = $_POST['type_of_visa'];
-          $planning_money = $_POST['planning_money'];
-          $myanmar_job = $_POST['myanmar_job'];
-          $form = $_POST['rdoform'];
-          $old_visa = $_POST['old_visa'];
-          // $associated_id = $_POST['associated_id'];
+// print_r($result);
+// die();
 
-
-          // Insert into the "state" table
-          $state_name = $_POST['state_name'];
-          $query = "INSERT INTO state (state_name, district_id) VALUES (:state_name, :district_id)";
-          $stmt = $pdo->prepare($query);
-          $stmt->bindValue(':state_name', $state_name);
-          $stmt->bindValue(':district_id', $district_id);
-          $stmt->execute();
-
-          // Retrieve the last inserted ID for state_id
-          $state_id = $pdo->lastInsertId();
-
-          if (isset($_POST['district_id'])) {
-               $nrc_type = $_POST['nrc_type'];
-               $nrc_no = $_POST['nrc_no'];
-
-               $sql = "INSERT INTO `nrc`(`nrc_type`, `state_id`, `nrc_no`) VALUES (:nrc_type, :state_id, :nrc_no)";
-               $statement = $pdo->prepare($sql);
-               $statement->bindParam(":nrc_type", $nrc_type, PDO::PARAM_STR);
-               $statement->bindParam(":state_id", $state_id, PDO::PARAM_STR);
-               $statement->bindParam(":nrc_no", $nrc_no, PDO::PARAM_STR);
-
-               $res = $statement->execute();
-
-               // if ($res) {
-               //      echo "NRC Data Stored";
-               // } else {
-               //      $errors[] = "Error occurred while storing NRC data";
-               // }
-          }
-
-          // Retrieve the last inserted ID for nrc_id
-          $nrc_id = $pdo->lastInsertId();
-
-          $sql = "INSERT INTO `student`(`student_id`, `photo`, `name`, `kana_name`, `gender`, `dob`, `age`, `country`, `religion`, `nrc_id`, `passport`, `address`, `per_address`, `tel`, `start_date`, `jp_lan_skill`, `height`, `weight`, `marriage`, `blood_type`, `eye_test`, `color_blind`, `hand`, `cook`, `disease`, `tattoo`, `smoke`, `drunk`, `languages`, `certificate`, `objective`, `teamwork`, `family_income`, `type_of_visa`, `planning_money`, `myanmar_job`, `form`, `old_visa`)
-          VALUES (:student_id, :photo, :student_name, :kana_name, :gender, :dob, :age, :country, :religion, :nrc_id, :passport, :address, :per_address, :tel, :start_date, :jp_lan_skill, :height, :weight, :marriage, :blood_type, :eye_test, :color_blind, :hand, :cook, :disease, :tattoo, :smoke, :drunk, :languages, :certificate, :objective, :teamwork, :family_income, :type_of_visa, :planning_money, :myanmar_job, :form, :old_visa)";
-
-
-          $statement = $pdo->prepare($sql);
-
-
-          $statement->bindParam(":student_id", $student_id, PDO::PARAM_STR);
-          $statement->bindParam(":photo", $pname, PDO::PARAM_STR);
-          $statement->bindParam(":student_name", $name, PDO::PARAM_STR);
-          $statement->bindParam(":kana_name", $kana_name, PDO::PARAM_STR);
-          $statement->bindParam(":gender", $gender, PDO::PARAM_STR);
-          $statement->bindParam(":dob", $dob, PDO::PARAM_STR);
-          $statement->bindParam(":age", $age, PDO::PARAM_STR);
-          $statement->bindParam(":country", $country, PDO::PARAM_STR);
-          $statement->bindParam(":religion", $religion, PDO::PARAM_STR);
-          $statement->bindParam(":nrc_id", $nrc_id, PDO::PARAM_STR);
-          $statement->bindParam(":passport", $passport, PDO::PARAM_STR);
-          $statement->bindParam(":address", $address, PDO::PARAM_STR);
-          $statement->bindParam(":per_address", $per_address, PDO::PARAM_STR);
-          $statement->bindParam(":tel", $tel, PDO::PARAM_STR);
-          $statement->bindParam(":start_date", $start_date, PDO::PARAM_STR);
-          $statement->bindParam(":jp_lan_skill", $jp_lan_skill, PDO::PARAM_STR);
-          $statement->bindParam(":height", $height, PDO::PARAM_STR);
-          $statement->bindParam(":weight", $weight, PDO::PARAM_STR);
-          $statement->bindParam(":marriage", $marriage, PDO::PARAM_STR);
-          $statement->bindParam(":blood_type", $blood_type, PDO::PARAM_STR);
-          $statement->bindParam(":eye_test", $eye_test, PDO::PARAM_STR);
-          $statement->bindParam(":color_blind", $color_blind, PDO::PARAM_STR);
-          $statement->bindParam(":hand", $hand, PDO::PARAM_STR);
-          $statement->bindParam(":cook", $cook, PDO::PARAM_STR);
-          $statement->bindParam(":disease", $disease, PDO::PARAM_STR);
-          $statement->bindParam(":tattoo", $tattoo, PDO::PARAM_STR);
-          $statement->bindParam(":smoke", $smoke, PDO::PARAM_STR);
-          $statement->bindParam(":drunk", $drunk, PDO::PARAM_STR);
-          $statement->bindParam(":languages", $languages, PDO::PARAM_STR);
-          $statement->bindParam(":certificate", $certificate, PDO::PARAM_STR);
-          $statement->bindParam(":objective", $objective, PDO::PARAM_STR);
-          $statement->bindParam(":teamwork", $teamwork, PDO::PARAM_STR);
-          $statement->bindParam(":family_income", $family_income, PDO::PARAM_STR);
-          $statement->bindParam(":type_of_visa", $type_of_visa, PDO::PARAM_STR);
-          $statement->bindParam(":planning_money", $planning_money, PDO::PARAM_STR);
-          $statement->bindParam(":myanmar_job", $myanmar_job, PDO::PARAM_STR);
-          $statement->bindParam(":form", $form, PDO::PARAM_STR);
-          $statement->bindParam(":old_visa", $old_visa, PDO::PARAM_STR);
-
-          $res = $statement->execute();
-
-          if ($res) {
-               // echo "Data Stored";
-               header("location:index2.php?id=$student_id");
-          } else {
-               $errors[] = "Error occurred while storing data";
-          }
-     }
+if (isset($_POST['submit'])) {
+     $keyword = $_POST['search'];
+     $sql = "SELECT * FROM `student` WHERE `name` LIKE :keyword;";
+     $q = $pdo->prepare($sql);
+     $q->bindValue(':keyword', '%' . $keyword . '%');
+     $q->execute();
+     $result = $q->fetchAll(PDO::FETCH_ASSOC);
+} else {
+     $sql = "SELECT `student_id`, `name`, `tel`, `jp_lan_skill` FROM `student`";
+     $statement = $pdo->prepare($sql);
+     $statement->execute();
+     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
 ?>
 
 
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/main.css">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+     <div class="header w-auto shadow m-auto p-3">
+          <nav class="navbar navbar-expand-lg bg-body-tertiary">
+               <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Student List</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                         aria-expanded="false" aria-label="Toggle navigation">
+                         <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                              <li class="nav-item">
+                                   <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                              </li>
+                              <li class="nav-item">
+                                   <a class="nav-link" href="datainput.php">Add New +</a>
+                              </li>
 
 
-<form action="index.php" method="POST" enctype="multipart/form-data">
-     <div class="container shadow shadow">
-          <table class="table table-sm table-bordered border-dark">
-               <img src="logo.png" class="rounded mx-auto d-block w-100">
-
-               <tr>
-                    <th scope="col" colspan="6" class="topic"><b><span>
-                                   <center>履歴書</center>
-                              </span></b></th>
-                    <td rowspan="3" class="student_photo"><img src="empty.jpg" alt="" id="img">
-                         <input class="file" type="file" name="photo" id="file">
-                    </td>
-               </tr>
-               <tr>
-
-                    <td><b>ID</b></td>
-                    <td colspan="5"><input type="text" name="student_id" id=""></td>
-               </tr>
-               <tr>
-
-                    <td colspan="7"><b>Own Info</b></td>
-
-               </tr>
-               <tr>
-                    <td colspan="2" for="student_name">အမည်</td>
-                    <td colspan="3"><input type="text" name="student_name" id=""></td>
-                    <td rowspan="2"><span>လိင်အမျိူးအစား</span></td>
-                    <td rowspan="2">
-                         <div class="d-flex justify-content-evenly pt-4">
-                              <div class="">
-                                   <span>Male</span><input type="radio" name="rdogender" id="" value="male" style="width:10px;">
-                              </div>
-                              <div>
-                                   <span>Female</span>
-                                   <input type="radio" name="rdogender" style="width:10px" id="" value="female">
-                              </div>
-                         </div>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">ဂျပန်ခနလိုပေါင်းခြင်း</td>
-                    <td colspan="3"><input type="text" name="kana_name" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">မွေးသကရစ်</td>
-                    <td colspan="2"><input type="date" name="dob" id=""></td>
-                    <td colspan="2">အသက်</td>
-                    <td><input type="number" name="age" id="" style="width: 40px;" min="16" max="70">နှစ်</td>
-               </tr>
-               <tr>
-                    <td colspan="2">နိုင်ငံ</td>
-                    <td colspan="2"><input type="text" name="country" id=""></td>
-                    <td colspan="2">ကိုးကွယ်သည့်ဘာသာ</td>
-                    <td><input type="text" name="religion" id=""></td>
-               </tr>
-
-
-               <tr style="width: 250px;">
-                    <td colspan="2">နိုင်ငံသားစီစစ်ရေးကဒ်နံပါတ်</td>
-                    <td colspan="2" style="width: 250px;">
-                         <div class="d-flex">
-                              <select name="district_id" class="district w-25">
-                                   <option selected disabled>./</option>
-
-                                   <?php
-                                   $sql = "SELECT * FROM district";
-                                   $statement = $pdo->prepare($sql);
-                                   $statement->execute();
-                                   $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                                   foreach ($result as $key => $value) {
-                                        echo '<option value="' . $value['district_id'] . '">' . $value['district'] . '</option>';
-                                   }
-                                   ?>
-                              </select>
-                              <select name="state_name" class="state w-50" id="">
-                                   <option selected disabled>state</option>
-                                   <?php
-
-                                   require "input.php";
-                                   ?>
-                              </select>
-
-                              <select name="nrc_type" id="">
-                                   <option value="N">Nation</option>
-                                   <option value="F">Foreign</option>
-                                   <option value="E">Empty</option>
-                              </select>
-                              <input type="text" name="nrc_no" id="" placeholder="number">
-                         </div>
-
-                    </td>
-                    <td colspan="2">Passport no.</td>
-                    <td><input type="text" name="passport" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">ဆက်သွယ်ရမည့်လိပ်စာ</td>
-                    <td colspan="5"><textarea name="address" id="" cols="120" rows="3"></textarea></td>
-               </tr>
-               <tr>
-                    <td colspan="2">အမြဲတမ်းနေရပ်လိပ်စာ</td>
-                    <td colspan="5"><textarea name="per_address" id="" cols="120" rows="3"></textarea></td>
-
-               </tr>
-               <tr>
-                    <td colspan="2">TEL</td>
-                    <td colspan="5"><input type="tel" name="tel" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">သင်တန်းစတက်သည့်နေ့</td>
-                    <td colspan="5"><input type="date" name="start_date"></td>
-               </tr>
-               <tr>
-                    <td colspan="2">ဂျပန်စာအရည်အချင်းအဆင့်</td>
-
-                    <td colspan="5"><input type="text" name="jp_lan_skill" id=""></td>
-
-               </tr>
-               <tr>
-                    <td colspan="2">အရပ်အမြင့်</td>
-                    <td colspan="2"><input type="number" name="height" id="" min="" max="" style="width: 40px;">cm
-                    </td>
-                    <td colspan="2">ကိုယ်အလေးချိန်</td>
-                    <td><input type="number" name="weight" min="" max="" id="" style="width: 40px;">Kg</td>
-               </tr>
-               <tr>
-                    <td colspan="2">အိမ်ထောင်ရေး</td>
-
-
-                    <td colspan="2">
-                         <input type="radio" name="rdomarriage" id="" value="1">ရှိ
-                         <input type="radio" name="rdomarriage" id="" value="0">မရှိ
-                    </td>
-                    <td colspan="2">သွေးအုပ်စု</td>
-                    <td><input type="text" name="blood_type" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">အမြင်အာရုံ</td>
-                    <td colspan="2"><input type="text" name="eye_test" id=""></td>
-                    <td colspan="2">color blind</td>
-                    <td>
-                         <input type="radio" name="rdocolorblind" id="" value="1">ရှိ
-                         <input type="radio" name="rdocolorblind" id="" value="0">မရှိ
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">သန်သည့်လက်</td>
-                    <td colspan="2">
-                         <input type="radio" name="rdohand" id="" value="left">ဘယ်
-                         <input type="radio" name="rdohand" id="" value="right">ညာ
-                    </td>
-                    <td colspan="2">ဟင်းချက်တတ်ခြင်း</td>
-                    <td>
-                         <input type="radio" name="rdocook" id="" value="1">ရှိ
-                         <input type="radio" name="rdocook" id="" value="0">မရှိ
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">ဖြစ်ခဲ့ဖူးသည့်ရောဂါ</td>
-                    <td colspan="2">
-                         <input type="radio" name="rdodisease" id="" value="1">ရှိ
-                         <input type="radio" name="rdodisease" id="" value="0">မရှိ
-                    </td>
-                    <td colspan="2">တက်တူးရှိလား</td>
-                    <td>
-                         <input type="radio" name="rdotattoo" id="" value="1">ရှိ
-                         <input type="radio" name="rdotattoo" id="" value="0">မရှိ
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">ဆေးလိပ်သောက်တတ်လား</td>
-                    <td colspan="2">
-                         <input type="radio" name="rdosmoke" id="" value="1">ရှိ
-                         <input type="radio" name="rdosmoke" id="" value="0">မရှိ
-                    </td>
-                    <td colspan="2">အရက်သောက်တတ်လား</td>
-                    <td>
-                         <input type="radio" name="rdodrunk" id="" value="1">ရှိ
-                         <input type="radio" name="rdodrunk" id="" value="0">မရှိ
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">ကျွမ်းကျင်သည့်ဘာသာစကား</td>
-                    <td colspan=" 5"><input type="text" name="languages" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">ရရှိထားသည့်လက်မှတ်များ</td>
-                    <td colspan=" 5"><input type="text" name="certificate" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">ရည်မှန်းချက်</td>
-                    <td colspan=" 5"><input type="text" name="objective" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="2">အဖွဲ့လိုက်လုပ်ဆောင်မှု</td>
-                    <td colspan="2">
-                         <input type="radio" name="rdoteamwork" id="" value="1">ရှိ
-                         <input type="radio" name="rdoteamwork" id="" value="0">မရှိ
-                    </td>
-                    <td colspan="2">မိသားစုဝင်ငွေ</td>
-                    <td><input type="number" name="family_income" min="" max="" id="" style="width: 40px;">ကျပ်
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="4">ဂျပန်သို့သွားရောက်လုပ်ကိုင်လိုသည့်အလုပ်အမျိူးအစား၊ဗီဇာအမျိူးအစား</td>
-                    <td colspan="3"><input type="text" name="type_of_visa" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="4">သုံးနှစ်အတွင်းစုဆောင်းရန် စီစဉ်ထားသောပိုက်ဆံ</td>
-                    <td colspan="3"><input type="number" name="planning_money" id="" min="" max="" style="width: 150px;">သောင်း
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="4">မြန်မာနိုင်ငံပြန်လာပြီးလုပ်မည့်အလုပ်</td>
-                    <td colspan="3"><input type="text" name="myanmar_job" id=""></td>
-               </tr>
-               <tr>
-                    <td colspan="4">ဂျပန်သို့သွားရောက်ရန်လျှောက်ထားခြင်းရှိ/မရှိ</td>
-                    <td colspan="3">
-                         <input type="radio" name="rdoform" id="" value="1">ရှိ
-                         <input type="radio" name="rdoform" id="" value="0">မရှိ
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="4">လျှောက်ထားဖူးခြင်းရှိပါက မည်သို့သောဗီဇာအမျိူးအစားဖြစ်ပါသလဲ?</td>
-                    <td colspan="3"><input type="text" name="old_visa" id=""></td>
-               </tr>
-
-          </table>
-          <input type="submit" value="Submit" name="submit" class="btn btn-info">
-
+                         </ul>
+                         <form action="index.php" class="d-flex" method="POST" role="search">
+                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                   name="search">
+                              <button class="btn btn-outline-success" type="submit" name="submit">Search</button>
+                         </form>
+                    </div>
+               </div>
+          </nav>
      </div>
-</form>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-     $(document).ready(function() {
-          $(".district").change(function() {
-               var district_id = $(this).val();
 
-               $.ajax({
-                    url: "input.php",
-                    method: "POST",
-                    data: {
-                         district_id: district_id
-                    },
-                    success: function(data) {
-                         $(".state").html(data);
-                    }
-               });
-          });
+     <div class="col-10">
+          <table class="table m-3 align-middle mb-0 bg-white">
+               <thead>
+                    <tr>
+                         <th scope="col">No</th>
+                         <th scope="col">Student ID</th>
+                         <th scope="col" colspan="2">Student Name</th>
+                         <th scope="col">Telephone</th>
+                         <th scope="col">Language Level</th>
+                         <th scope="col">Action</th>
+                    </tr>
+               </thead>
+               <?php
+               // $record_per_page = 5;
+               // $page = "";
 
-     });
-</script>
-<script>
-     /* if img click input file will be upload */
-     img.onclick = () => file.click()
-     file.addEventListener('change', function() {
-          /* to get file  */
-          let f = file.files[0]
-          /* use url object for to get file url */
-          img.src = URL.createObjectURL(f)
-          console.log(f)
-     })
-</script>
+               // if (isset($_GET['page'])) {
+               //      $page = $_GET['page'];
+               // } else {
+               //      $page = 1;
+               // }
+               // $start_page = ($page - 1) * $record_per_page;
+               // $u_query = "SELECT * FROM student LIMIT :start_page, :record_per_page";
+               // $statement = $pdo->prepare($u_query);
+               // $statement->bindParam(":start_page", $start_page, PDO::PARAM_INT);
+               // $statement->bindParam(":record_per_page", $record_per_page, PDO::PARAM_INT);
+               // $statement->execute();
+
+               // $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+               ?>
+               <tbody>
+                    <?php foreach ($result as $key => $value) { ?>
+                    <!-- print_r($value['name']); -->
+                    <tr>
+                         <th><?= ++$key ?></th>
+                         <td scope="row" colspan="2"><?= $value['student_id'] ?></td>
+                         <td scope="row"><?= $value['name'] ?></td>
+                         <td scope="row"><?= $value['tel'] ?></td>
+                         <td scope="row"><?= $value['jp_lan_skill'] ?></td>
+                         <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
+                         <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
+
+                         </td>
+
+                    </tr>
+                    <?php  } ?>
+
+               </tbody>
+          </table>
+     </div>
+
+     <!-- <div class="pagination m-auto" style="width: fit-content;">
+          <?php
+          $p_query = "SELECT * FROM student ORDER BY student_id DESC";
+          $p_result = $pdo->prepare($p_query);
+          $p_result->execute();
+
+          $total_records = $p_result->rowCount();
+          //     print_r($total_records);
+          //     die();
+
+          $total_pages = ceil($total_records / $record_per_page);
+          for ($i = 1; $i < $total_pages; $i++) {
+               echo "<a class='px-3 py-1 border text-center mx-2' href='dashboard.php?page=" . $i . "'> " . $i . "</a>";
+          }
+          ?>
+     </div> -->
+
+     <script src="js/bootstrap.bundle.min.js"></script>
+     <script>
+     function confirmDelete(student_id) {
+          if (confirm("Are you sure to delete this record?")) {
+               window.location.href = "delete.php?id=" + student_id;
+          }
+     }
+     </script>
+</body>
+
+</html>

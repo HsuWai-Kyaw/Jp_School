@@ -23,7 +23,7 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 <form action="cv.php" method="POST" enctype="multipart/form-data">
-     <div class="container shadow shadow">
+     <div class="container shadow shadow table-primary">
           <table class="table table-sm table-bordered border-dark">
                <img src="logo.png" class="rounded mx-auto d-block w-100">
 
@@ -31,7 +31,9 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                foreach ($result as $key => $value) { ?>
                     <tr>
                          <th scope="col" colspan="6" class="topic"><b><span>
-                                        <center>履歴書</center>
+                                        <center>
+                                             <h1>履歴書</h1>
+                                        </center>
                                    </span></b></th>
                          <td rowspan="3" class="student_photo"><img src="img/<?= $value['photo'] ?>" alt="" id="img" width="150px" height="150px">
 
@@ -40,181 +42,206 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                     <tr>
 
-                         <td><b>ID</b></td>
+                         <td><b>
+                                   <h2>ID</h2>
+                              </b></td>
                          <td colspan="5"><?= $value['student_id'] ?></td>
                     </tr>
                     <tr>
 
-                         <td colspan="7"><b>Own Info</b></td>
+                         <td colspan="7"><b>
+                                   <h2>基本情報</h2>
+                              </b></td>
 
                     </tr>
                     <tr>
-                         <td colspan="2" for="student_name">အမည်</td>
+                         <td colspan="2" for="student_name">名前</td>
                          <td colspan="3"><?= $value['name'] ?></td>
-                         <td rowspan="2"><span>လိင်အမျိူးအစား</span></td>
+                         <td rowspan="2"><span>性別</span></td>
                          <td rowspan="2">
                               <?= $value['gender'] ?>
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဂျပန်ခနလိုပေါင်းခြင်း</td>
+                         <td colspan="2">ふりがな</td>
                          <td colspan="3"><?= $value['kana_name'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">မွေးသကရစ်</td>
+                         <td colspan="2">生年月日</td>
                          <td colspan="2"><?= $value['dob'] ?></td>
-                         <td colspan="2">အသက်</td>
-                         <td><?= $value['age'] ?>နှစ်</td>
+                         <td colspan="2">年齢</td>
+                         <td><?= $value['age'] ?>歳</td>
                     </tr>
                     <tr>
-                         <td colspan="2">နိုင်ငံ</td>
+                         <td colspan="2">国籍</td>
                          <td colspan="2"><?= $value['country'] ?></td>
-                         <td colspan="2">ကိုးကွယ်သည့်ဘာသာ</td>
+                         <td colspan="2">信仰</td>
                          <td><?= $value['religion'] ?></td>
                     </tr>
 
 
                     <tr style="width: 250px;">
-                         <td colspan="2">နိုင်ငံသားစီစစ်ရေးကဒ်နံပါတ်</td>
+                         <td colspan="2">身分証明書</td>
                          <td colspan="2" style="width: 250px;">
-                              <?= $value['nrc_id'] ?>
+                              <?php
+
+                              $nrc = "SELECT d.district, s.state_name, n.nrc_type, n.nrc_no
+                              FROM state s
+                              JOIN district d ON d.district_id = s.district_id
+                              JOIN nrc n ON n.state_id = s.state_id
+                              JOIN student st ON st.nrc_id = n.nrc_id
+                              WHERE st.nrc_id = " . $value['nrc_id'];
+
+
+                              $statement = $pdo->prepare($nrc);
+                              $statement->execute();
+
+
+                              $result = $statement->fetch();
+                              print_r($result['district']);
+                              print_r($result['state_name']);
+                              print_r($result['nrc_type']);
+                              print_r($result['nrc_no']);
+
+
+                              // die();
+
+                              ?>
+
 
                          </td>
-                         <td colspan="2">Passport no.</td>
+                         <td colspan="2">パスポート番号</td>
                          <td><?= $value['passport'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဆက်သွယ်ရမည့်လိပ်စာ</td>
+                         <td colspan="2">連絡先</td>
                          <td colspan="5"><?= $value['address'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">အမြဲတမ်းနေရပ်လိပ်စာ</td>
+                         <td colspan="2">住所</td>
                          <td colspan="5"><?= $value['per_address'] ?></td>
 
                     </tr>
                     <tr>
-                         <td colspan="2">TEL</td>
+                         <td colspan="2">電話番号</td>
                          <td colspan="5"><?= $value['tel'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">သင်တန်းစတက်သည့်နေ့</td>
+                         <td colspan="2">入学日</td>
                          <td colspan="5"><?= $value['start_date'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဂျပန်စာအရည်အချင်းအဆင့်</td>
+                         <td colspan="2">日本語能力</td>
 
                          <td colspan="5"><?= $value['jp_lan_skill'] ?></td>
 
                     </tr>
                     <tr>
-                         <td colspan="2">အရပ်အမြင့်</td>
-                         <td colspan="2"><?= $value['height'] ?>cm
+                         <td colspan="2">身長(センチ)</td>
+                         <td colspan="2">(<?= $value['height'] ?>)センチ
                          </td>
-                         <td colspan="2">ကိုယ်အလေးချိန်</td>
-                         <td><?= $value['weight'] ?>Kg</td>
+                         <td colspan="2">体重(キロ)</td>
+                         <td>(<?= $value['weight'] ?>)キロ</td>
                     </tr>
                     <tr>
-                         <td colspan="2">အိမ်ထောင်ရေး</td>
-
-
+                         <td colspan="2">婚姻</td>
                          <td colspan="2">
                               <?= $value['marriage'] ?>
                          </td>
-                         <td colspan="2">သွေးအုပ်စု</td>
+                         <td colspan="2">血液</td>
                          <td><?= $value['blood_type'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">အမြင်အာရုံ</td>
+                         <td colspan="2">視力</td>
                          <td colspan="2"><?= $value['eye_test'] ?></td>
-                         <td colspan="2">color blind</td>
+                         <td colspan="2">色覚異常</td>
                          <td>
                               <?= $value['color_blind'] ?>
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="2">သန်သည့်လက်</td>
+                         <td colspan="2">利き手</td>
                          <td colspan="2">
                               <?= $value['hand'] ?>
                          </td>
-                         <td colspan="2">ဟင်းချက်တတ်ခြင်း</td>
+                         <td colspan="2">料理</td>
                          <td>
                               <?= $value['cook'] ?>
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဖြစ်ခဲ့ဖူးသည့်ရောဂါ</td>
+                         <td colspan="2">病歴</td>
                          <td colspan="2">
                               <?= $value['disease'] ?>
                          </td>
-                         <td colspan="2">တက်တူးရှိလား</td>
+                         <td colspan="2">肌上入れ墨.手術</td>
                          <td>
                               <?= $value['tattoo'] ?>
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဆေးလိပ်သောက်တတ်လား</td>
+                         <td colspan="2">タバコを吸っているか？</td>
                          <td colspan="2">
                               <?= $value['smoke'] ?>
                          </td>
-                         <td colspan="2">အရက်သောက်တတ်လား</td>
+                         <td colspan="2">お酒を飲んでいるか？</td>
                          <td>
                               <?= $value['drunk'] ?>
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="2">ကျွမ်းကျင်သည့်ဘာသာစကား</td>
+                         <td colspan="2">得意科目</td>
                          <td colspan=" 5"><?= $value['languages'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">ရရှိထားသည့်လက်မှတ်များ</td>
+                         <td colspan="2">受け取った証明書</td>
                          <td colspan=" 5"><?= $value['certificate'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">ရည်မှန်းချက်</td>
+                         <td colspan="2">志望動機</td>
                          <td colspan=" 5"><?= $value['objective'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="2">အဖွဲ့လိုက်လုပ်ဆောင်မှု</td>
+                         <td colspan="2">集団生活経験</td>
                          <td colspan="2">
                               <?= $value['teamwork'] ?>
                          </td>
-                         <td colspan="2">မိသားစုဝင်ငွေ</td>
-                         <td><?= $value['family_income'] ?>ကျပ်
+                         <td colspan="2">家族の月収</td>
+                         <td><?= $value['family_income'] ?>チャット
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="4">ဂျပန်သို့သွားရောက်လုပ်ကိုင်လိုသည့်အလုပ်အမျိူးအစား၊ဗီဇာအမျိူးအစား</td>
+                         <td colspan="4">日本でやりたい仕事、ビザの種類</td>
                          <td colspan="3"><?= $value['type_of_visa'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="4">သုံးနှစ်အတွင်းစုဆောင်းရန် စီစဉ်ထားသောပိုက်ဆံ</td>
+                         <td colspan="4">3年間の貯蓄目標</td>
                          <td colspan="3">
-                              <?= $value['planning_money'] ?>သောင်း </td>
+                              (<?= $value['planning_money'] ?>)万 </td>
                     </tr>
                     <tr>
-                         <td colspan="4">မြန်မာနိုင်ငံပြန်လာပြီးလုပ်မည့်အလုပ်</td>
+                         <td colspan="4">帰国後やりたい仕事</td>
                          <td colspan="3"><?= $value['myanmar_job'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="4">ဂျပန်သို့သွားရောက်ရန်လျှောက်ထားခြင်းရှိ/မရှိ</td>
+                         <td colspan="4">日本国に在留資格申請したことあるか？</td>
                          <td colspan="3">
                               <?= $value['form'] ?>
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="4">လျှောက်ထားဖူးခြင်းရှိပါက မည်သို့သောဗီဇာအမျိူးအစားဖြစ်ပါသလဲ?</td>
+                         <td colspan="4">あったら、どんな資格を申請したか？</td>
                          <td colspan="3"><?= $value['old_visa'] ?></td>
                     </tr>
 
                <?php } ?>
           </table>
 
-          <!-- <input type="submit" value="Submit" name="submit" class="btn btn-info"> -->
 
      </div>
 
      <div class="container shadow shadow">
-          <b><span>ပညာရေးသမိုင်း</span></b>
+          <b><span>学歴</span></b>
           <table class="table table-sm table-bordered border-dark">
                <?php
 
@@ -229,11 +256,11 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                foreach ($result as $key => $value) { ?>
                     <thead>
                          <tr>
-                              <td>စတင်သည့်ခုနှစ်</td>
-                              <td>ပြီးသည့်ခုနှစ်</td>
-                              <td colspan="2">ကျောင်းအမည်</td>
-                              <td colspan="2">အထူးပြုဘာသာရပ်</td>
-                              <td>အရည်အချင်း</td>
+                              <td>開始年</td>
+                              <td>終了年</td>
+                              <td colspan="2">学校名</td>
+                              <td colspan="2">専門</td>
+                              <td>免許・資</td>
                          </tr>
 
                     </thead>
@@ -265,15 +292,15 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                ?>
           </table>
 
-          <b><span>အလုပ်အတွေ့အကြုံ</span></b>
+          <b><span>職歴</span></b>
           <table class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td>စတင်သည့်ခုနှစ်</td>
-                         <td>ပြီးသည့်ခုနှစ်</td>
-                         <td colspan="2">companyအမည်</td>
-                         <td colspan="2">အလုပ်အမျိူးအစားနှင့်ရာထူး</td>
-                         <td>လစာ</td>
+                         <td>開始年</td>
+                         <td>終了年</td>
+                         <td colspan="2">会社名</td>
+                         <td colspan="2">仕事内容</td>
+                         <td>給料</td>
                     </tr>
 
                </thead>
@@ -296,17 +323,17 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                </tbody>
           </table>
-          <b><span>မိသားစုဝင်အချက်အလက်</span></b>
+          <span><b>家族</b></span>
 
           <table class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td colspan="2">မိသားစုဝင်နာမည်</td>
-                         <td>တော်စပ်ပုံ</td>
-                         <td>အသက်</td>
-                         <td>အလုပ်အကိုင်</td>
-                         <td>အတူနေ</td>
-                         <td>ခွဲနေ</td>
+                         <td colspan="2">家族氏名</td>
+                         <td>続柄</td>
+                         <td>年齢</td>
+                         <td>職業</td>
+                         <td>同居</td>
+                         <td>別居</td>
                     </tr>
 
                </thead>
@@ -342,24 +369,27 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                          </td>
                     </tr>
                     <tr>
-                         <td colspan="2">ဂျပန်မှာဆွေမျိူးရှိသလား</td>
+                         <td colspan="2">在日親戚？</td>
                          <td colspan="2">
                               <?= $value['relative'] ?>
                          </td>
-                         <td colspan="2">ရှိပါက တော်စပ်ပုံ</td>
+                         <td colspan="2">有るばい、誰？</td>
                          <td><?= $value['jp_family_member'] ?></td>
                     </tr>
                     <tr>
-                         <td colspan="4">ဂျပန်သို့သွားရောက်ရန် မိသားစုသဘောထား</td>
+                         <td colspan="4">日本へ行くことに家族は？</td>
                          <td colspan="3">
                               <?= $value['accept'] ?>
                          </td>
                     </tr>
                </tbody>
           </table>
-          <!-- <input type="submit" value="Submit" name="submit" class="btn btn-info"> -->
      </div>
 </form>
+
+
+<!-- <button class="btn btn-outline-danger" name="edit"><a href="edit.php?id=<?= $value['student_id']; ?>">Edit</a></button> -->
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
@@ -392,4 +422,39 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
           img.src = URL.createObjectURL(f)
           console.log(f)
      })
+</script>
+
+<script>
+     function handleRadioSelection(radio) {
+          var liveRadio = document.getElementById("live_radio");
+          var stayApartRadio = document.getElementById("stay_apart_radio");
+
+          if (radio.value === "living") {
+               stayApartRadio.checked = false;
+          } else if (radio.value === "stay_apart") {
+               liveRadio.checked = false;
+          }
+     }
+
+     function handleRadioSelection(radio) {
+          var liveRadio_2 = document.getElementById("live_radio_2");
+          var stayApartRadio_2 = document.getElementById("stay_apart_radio_3");
+
+          if (radio.value === "living") {
+               stayApartRadio_2.checked = false;
+          } else if (radio.value === "stay_apart") {
+               liveRadio_2.checked = false;
+          }
+     }
+
+     function handleRadioSelection(radio) {
+          var liveRadio_3 = document.getElementById("live_radio");
+          var stayApartRadio_3 = document.getElementById("stay_apart_radio");
+
+          if (radio.value === "living") {
+               stayApartRadio_3.checked = false;
+          } else if (radio.value === "stay_apart") {
+               liveRadio_3.checked = false;
+          }
+     }
 </script>
