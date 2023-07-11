@@ -36,7 +36,9 @@ if (isset($_POST['submit'])) {
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
                <div class="container-fluid">
                     <a class="navbar-brand" href="#">Student List</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                         aria-expanded="false" aria-label="Toggle navigation">
                          <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -50,7 +52,8 @@ if (isset($_POST['submit'])) {
 
                          </ul>
                          <form action="index.php" class="d-flex" method="POST" role="search">
-                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                                   name="search">
                               <button class="btn btn-outline-success" type="submit" name="submit">Search</button>
                          </form>
                     </div>
@@ -95,21 +98,21 @@ if (isset($_POST['submit'])) {
 
                     <?php foreach ($result as $key => $value) { ?>
 
-                         <!-- print_r($value['name']); -->
+                    <!-- print_r($value['name']); -->
 
-                         <th><?= ++$key ?></th>
-                         <td scope="row"><?= $value['student_id'] ?></td>
-                         <td scope="row"><?= $value['name'] ?></td>
-                         <td scope="row"><?= $value['kana_name'] ?></td>
-                         <td scope="row"><?= $value['passport'] ?></td>
-                         <td scope="row"><?= $value['tel'] ?></td>
-                         <td scope="row"><?= $value['jp_lan_skill'] ?></td>
-                         <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
-                         <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
+                    <th><?= ++$key ?></th>
+                    <td scope="row"><?= $value['student_id'] ?></td>
+                    <td scope="row"><?= $value['name'] ?></td>
+                    <td scope="row"><?= $value['kana_name'] ?></td>
+                    <td scope="row"><?= $value['passport'] ?></td>
+                    <td scope="row"><?= $value['tel'] ?></td>
+                    <td scope="row"><?= $value['jp_lan_skill'] ?></td>
+                    <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
+                    <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
 
-                         </td>
+                    </td>
 
-                         </tr>
+                    </tr>
                     <?php  } ?>
 
                </tbody>
@@ -138,11 +141,11 @@ if (isset($_POST['submit'])) {
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
      <script src="js/bootstrap.bundle.min.js"></script>
      <script>
-          function confirmDelete(student_id) {
-               if (confirm("Are you sure to delete this record?")) {
-                    window.location.href = "delete.php?id=" + student_id;
-               }
+     function confirmDelete(student_id) {
+          if (confirm("Are you sure to delete this record?")) {
+               window.location.href = "delete.php?id=" + student_id;
           }
+     }
      </script>
 </body>
 
