@@ -1,19 +1,18 @@
 <?php
 require "server/db.php";
 
-
 // print_r($result);
 // die();
 
 if (isset($_POST['submit'])) {
      $keyword = $_POST['search'];
-     $sql = "SELECT * FROM `student` WHERE `name` LIKE :keyword;";
+     $sql = "SELECT * FROM `student` WHERE `student_id` LIKE :keyword;";
      $q = $pdo->prepare($sql);
      $q->bindValue(':keyword', '%' . $keyword . '%');
      $q->execute();
      $result = $q->fetchAll(PDO::FETCH_ASSOC);
 } else {
-     $sql = "SELECT `student_id`, `name`, `tel`, `jp_lan_skill` FROM `student`";
+     $sql = "SELECT `student_id`, `name`, `tel`, `jp_lan_skill` FROM `student` ORDER BY student_id DESC";
      $statement = $pdo->prepare($sql);
      $statement->execute();
      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -38,9 +37,7 @@ if (isset($_POST['submit'])) {
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
                <div class="container-fluid">
                     <a class="navbar-brand" href="#">Student List</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                         aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                          <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -52,11 +49,9 @@ if (isset($_POST['submit'])) {
                                    <a class="nav-link" href="datainput.php">Add New +</a>
                               </li>
 
-
                          </ul>
                          <form action="index.php" class="d-flex" method="POST" role="search">
-                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                                   name="search">
+                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                               <button class="btn btn-outline-success" type="submit" name="submit">Search</button>
                          </form>
                     </div>
@@ -69,6 +64,7 @@ if (isset($_POST['submit'])) {
           <table class="table m-3 align-middle mb-0 bg-white">
                <thead>
                     <tr>
+                         <th><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></th>
                          <th scope="col">No</th>
                          <th scope="col">Student ID</th>
                          <th scope="col" colspan="2">Student Name</th>
@@ -97,23 +93,26 @@ if (isset($_POST['submit'])) {
                ?>
                <tbody>
                     <?php foreach ($result as $key => $value) { ?>
-                    <!-- print_r($value['name']); -->
-                    <tr>
-                         <th><?= ++$key ?></th>
-                         <td scope="row" colspan="2"><?= $value['student_id'] ?></td>
-                         <td scope="row"><?= $value['name'] ?></td>
-                         <td scope="row"><?= $value['tel'] ?></td>
-                         <td scope="row"><?= $value['jp_lan_skill'] ?></td>
-                         <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
-                         <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
 
-                         </td>
+                         <!-- print_r($value['name']); -->
+                         <tr>
+                              <td><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></td>
+                              <th><?= ++$key ?></th>
+                              <td scope="row" colspan="2"><?= $value['student_id'] ?></td>
+                              <td scope="row"><?= $value['name'] ?></td>
+                              <td scope="row"><?= $value['tel'] ?></td>
+                              <td scope="row"><?= $value['jp_lan_skill'] ?></td>
+                              <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
+                              <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
 
-                    </tr>
+                              </td>
+
+                         </tr>
                     <?php  } ?>
 
                </tbody>
           </table>
+
      </div>
 
      <!-- <div class="pagination m-auto" style="width: fit-content;">
@@ -133,13 +132,15 @@ if (isset($_POST['submit'])) {
           ?>
      </div> -->
 
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
      <script src="js/bootstrap.bundle.min.js"></script>
      <script>
-     function confirmDelete(student_id) {
-          if (confirm("Are you sure to delete this record?")) {
-               window.location.href = "delete.php?id=" + student_id;
+          function confirmDelete(student_id) {
+               if (confirm("Are you sure to delete this record?")) {
+                    window.location.href = "delete.php?id=" + student_id;
+               }
           }
-     }
      </script>
 </body>
 

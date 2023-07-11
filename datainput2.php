@@ -1,128 +1,151 @@
 <?php
-require "server/db.php";
-
+require 'server/db.php';
 $errors = [];
 
 if (isset($_GET['id'])) {
-
      $id = $_GET['id'];
 }
-
 // echo $id;
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-if (isset($_POST['submit'])) {
+     if (isset($_POST['submit'])) {
+          $id = $_POST['id'];
+          $education_s_year = $_POST['education_s_year'] ?? [];
+          $education_s_month = $_POST['education_s_month'] ?? [];
+          $education_e_year = $_POST['education_e_year'] ?? [];
+          $education_e_month = $_POST['education_e_month'] ?? [];
+          $school_name = $_POST['school_name'] ?? [];
+          $specialized_subject = $_POST['specialized_subject'] ?? [];
+          $skills = $_POST['skills'] ?? [];
 
-     $id = $_POST['id'];
+          $job_s_year = $_POST['job_s_year'] ?? [];
+          $job_s_month = $_POST['job_s_month'] ?? [];
+          $job_e_year = $_POST['job_e_year'] ?? [];
+          $job_e_month = $_POST['job_e_month'] ?? [];
+          $company_name = $_POST['company_name'] ?? [];
+          $job_type_and_position = $_POST['job_type_and_position'] ?? [];
+          $income = $_POST['income'] ?? [];
 
-     $education_s_date = $_POST['education_s_date'];
-     $education_e_date = $_POST['education_e_date'];
-     $school_name = $_POST['school_name'];
-     $specialize_subject = $_POST['specialize_subject'];
-     $skills = $_POST['skills'];
+          $cbtype = $_POST['cbtype'] ?? [];
+          // print_r($cbtype);
+          // die();
 
-     $education_s_date_2 = $_POST['education_s_date_2'];
-     $education_e_date_2 = $_POST['education_e_date_2'];
-     $school_name_2 = $_POST['school_name_2'];
-     $specialize_subject_2 = $_POST['specialize_subject_2'];
-     $skills_2 = $_POST['skills_2'];
+          $family_member = $_POST['family_member'] ?? [];
 
-     $job_s_date = $_POST['job_s_date'];
-     $job_e_date = $_POST['job_e_date'];
-     $company_name = $_POST['company_name'];
-     $job_type_and_position = $_POST['job_type_and_position'];
-     $income = $_POST['income'];
+          $family_member_type = $_POST['family_member_type'] ?? [];
+          $family_member_age = $_POST['family_member_age'] ?? [];
+          $family_member_job = $_POST['family_member_job'] ?? [];
 
-     $job_s_date_2 = $_POST['job_s_date_2'];
-     $job_e_date_2 = $_POST['job_e_date_2'];
-     $company_name_2 = $_POST['company_name_2'];
-     $job_type_and_position_2 = $_POST['job_type_and_position_2'];
-     $income_2 = $_POST['income_2'];
+          $relative = $_POST['rdorelative'];
+          $jp_family_member = $_POST['jp_family_member'];
+          $accept = $_POST['rdoaccept'];
 
-     $family_member = $_POST['family_member'];
-     $family_member_type = $_POST['family_member_type'];
-     $family_member_age = $_POST['family_member_age'];
-     $family_member_job = $_POST['family_member_job'];
-     $living = $_POST['rdostay'];
+          // Prepare the SQL statement
+          $esql =
+               'INSERT INTO `edu`(`student_id`, `education_s_year`, `education_s_month`, `education_e_year`, `education_e_month`, `school_name`, `specialized_subject`, `skills`) VALUES (:student_id, :education_s_year, :education_s_month, :education_e_year, :education_e_month, :school_name, :specialized_subject, :skills)';
+          $statement = $pdo->prepare($esql);
 
-     $family_member_2 = $_POST['family_member_2'];
-     $family_member_type_2 = $_POST['family_member_type_2'];
-     $family_member_age_2 = $_POST['family_member_age_2'];
-     $family_member_job_2 = $_POST['family_member_job_2'];
-     $living_2 = $_POST['rdostay_2'];
+          $jsql = "INSERT INTO `job_exp`(`student_id`, `job_s_year`, `job_s_month`, `job_e_year`, `job_e_month`, `company_name`, `job_type_and_position`, `income`)
+          VALUES (:student_id, :job_s_year, :job_s_month, :job_e_year, :job_e_month, :company_name, :job_type_and_position, :income)
+          ";
+          $statementj = $pdo->prepare($jsql);
 
-     $family_member_3 = $_POST['family_member_3'];
-     $family_member_type_3 = $_POST['family_member_type_3'];
-     $family_member_age_3 = $_POST['family_member_age_3'];
-     $family_member_job_3 = $_POST['family_member_job_3'];
-     $living_3 = $_POST['rdostay_3'];
+          $fsql = "INSERT INTO family_info( student_id, family_member, family_member_type, family_member_age, family_member_job, cbtype, relative, jp_family_member, accept) VALUES (:student_id,:family_member,:family_member_type,:family_member_age,:family_member_job,:cbtype,:relative,:jp_family_member,:accept)";
+          $statementf = $pdo->prepare($fsql);
 
-     $relative = $_POST['rdorelative'];
-     $jp_family_member = $_POST['jp_family_member'];
-     $accept = $_POST['rdoaccept'];
+          // Bind parameters
+          $statement->bindParam(':student_id', $id, PDO::PARAM_STR);
+          for ($i = 0; $i < count($education_s_year); $i++) {
+               $statement->bindParam(
+                    ':education_s_year',
+                    $education_s_year[$i],
+                    PDO::PARAM_STR
+               );
+               $statement->bindParam(
+                    ':education_s_month',
+                    $education_s_month[$i],
+                    PDO::PARAM_STR
+               );
+               $statement->bindParam(
+                    ':education_e_year',
+                    $education_e_year[$i],
+                    PDO::PARAM_STR
+               );
+               $statement->bindParam(
+                    ':education_e_month',
+                    $education_e_month[$i],
+                    PDO::PARAM_STR
+               );
+               $statement->bindParam(':school_name', $school_name[$i], PDO::PARAM_STR);
+               $statement->bindParam(
+                    ':specialized_subject',
+                    $specialized_subject[$i],
+                    PDO::PARAM_STR
+               );
+               $statement->bindParam(':skills', $skills[$i], PDO::PARAM_STR);
+               $statement->execute();
+          }
+          $statementj->bindParam(':student_id', $id, PDO::PARAM_STR);
+          for ($i = 0; $i < count($job_s_year); $i++) {
+               $statementj->bindParam(':job_s_year', $job_s_year[$i], PDO::PARAM_STR);
+               $statementj->bindParam(':job_s_month', $job_s_month[$i], PDO::PARAM_STR);
+               $statementj->bindParam(':job_e_year', $job_e_year[$i], PDO::PARAM_STR);
+               $statementj->bindParam(':job_e_month', $job_e_month[$i], PDO::PARAM_STR);
+               $statementj->bindParam(':company_name', $company_name[$i], PDO::PARAM_STR);
+               $statementj->bindParam(
+                    ':job_type_and_position',
+                    $job_type_and_position[$i],
+                    PDO::PARAM_STR
+               );
+               $statementj->bindParam(':income', $income[$i], PDO::PARAM_STR);
+               $statementj->execute();
+          }
 
-     $sql2 = "INSERT INTO `associated`(`student_id`,`education_s_date`, `education_e_date`, `school_name`, `specialize_subject`, `skills`, `education_s_date_2`, `education_e_date_2`, `school_name_2`, `specialize_subject_2`, `skills_2`, `job_s_date`, `job_e_date`, `company_name`, `job_type_and_position`, `income`, `job_s_date_2`, `job_e_date_2`, `company_name_2`, `job_type_and_position_2`, `income_2`, `family_member`, `family_member_type`, `family_member_age`, `family_member_job`, `living`, `family_member_2`, `family_member_type_2`, `family_member_age_2`, `family_member_job_2`, `living_2`, `family_member_3`, `family_member_type_3`, `family_member_age_3`, `family_member_job_3`, `living_3`, `relative`, `jp_family_member`, `accept`) VALUES (:student_id,:education_s_date,:education_e_date,:school_name, :specialize_subject, :skills, :education_s_date_2, :education_e_date_2, :school_name_2, :specialize_subject_2, :skills_2, :job_s_date, :job_e_date, :company_name, :job_type_and_position, :income, :job_s_date_2, :job_e_date_2, :company_name_2, :job_type_and_position_2, :income_2, :family_member, :family_member_type, :family_member_age, :family_member_job, :living, :family_member_2, :family_member_type_2, :family_member_age_2, :family_member_job_2, :living_2, :family_member_3, :family_member_type_3, :family_member_age_3, :family_member_job_3, :living_3, :relative, :jp_family_member, :accept)";
-     $statement2 = $pdo->prepare($sql2);
-     $statement2->bindParam(":student_id", $id, PDO::PARAM_STR);
+          // print_r($family_member);
+          // die();
 
-     $statement2->bindParam(":education_s_date", $education_s_date, PDO::PARAM_STR);
-     $statement2->bindParam(":education_e_date", $education_e_date, PDO::PARAM_STR);
-     $statement2->bindParam(":school_name", $school_name, PDO::PARAM_STR);
-     $statement2->bindParam(":specialize_subject", $specialize_subject, PDO::PARAM_STR);
-     $statement2->bindParam(":skills", $skills, PDO::PARAM_STR);
-     $statement2->bindParam(":education_s_date_2", $education_s_date_2, PDO::PARAM_STR);
-     $statement2->bindParam(":education_e_date_2", $education_e_date_2, PDO::PARAM_STR);
-     $statement2->bindParam(":school_name_2", $school_name_2, PDO::PARAM_STR);
-     $statement2->bindParam(":specialize_subject_2", $specialize_subject_2, PDO::PARAM_STR);
-     $statement2->bindParam(":skills_2", $skills_2, PDO::PARAM_STR);
-     $statement2->bindParam(":job_s_date", $job_s_date, PDO::PARAM_STR);
-     $statement2->bindParam(":job_e_date", $job_e_date, PDO::PARAM_STR);
-     $statement2->bindParam(":company_name", $company_name, PDO::PARAM_STR);
-     $statement2->bindParam(":job_type_and_position", $job_type_and_position, PDO::PARAM_STR);
-     $statement2->bindParam(":income", $income, PDO::PARAM_STR);
-     $statement2->bindParam(":job_s_date_2", $job_s_date_2, PDO::PARAM_STR);
-     $statement2->bindParam(":job_e_date_2", $job_e_date_2, PDO::PARAM_STR);
-     $statement2->bindParam(":company_name_2", $company_name_2, PDO::PARAM_STR);
-     $statement2->bindParam(":job_type_and_position_2", $job_type_and_position_2, PDO::PARAM_STR);
-     $statement2->bindParam(":income_2", $income_2, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member", $family_member, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_type", $family_member_type, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_age", $family_member_age, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_job", $family_member_job, PDO::PARAM_STR);
-     $statement2->bindParam(":living", $living, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_2", $family_member_2, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_type_2", $family_member_type_2, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_age_2", $family_member_age_2, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_job_2", $family_member_job_2, PDO::PARAM_STR);
-     $statement2->bindParam(":living_2", $living_2, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_3", $family_member_3, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_type_3", $family_member_type_3, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_age_3", $family_member_age_3, PDO::PARAM_STR);
-     $statement2->bindParam(":family_member_job_3", $family_member_job_3, PDO::PARAM_STR);
-     $statement2->bindParam(":living_3", $living_3, PDO::PARAM_STR);
-     $statement2->bindParam(":relative", $relative, PDO::PARAM_STR);
-     $statement2->bindParam(":jp_family_member", $jp_family_member, PDO::PARAM_STR);
-     $statement2->bindParam(":accept", $accept, PDO::PARAM_STR);
+          foreach ($cbtype as $i => $value) {
+               $cbtype = $value;
+               $fm = $family_member[$i];
+               $fmt = $family_member_type[$i];
+               $fma = $family_member_age[$i];
+               $fmj = $family_member_job[$i];
+               // echo $cbtype . "<br>";
+               // echo $fm . "<br>";
+               // echo $fmt . "<br>";
+               // echo $fma . "<br>";
+               // echo $fmj . "<br>";
+               $statementf->bindParam(':student_id', $id, PDO::PARAM_STR);
+               $statementf->bindParam(':family_member', $fm, PDO::PARAM_STR);
+               $statementf->bindParam(':family_member_type', $fmt, PDO::PARAM_STR);
+               $statementf->bindParam(':family_member_age', $fma, PDO::PARAM_STR);
+               $statementf->bindParam(':family_member_job', $fmj, PDO::PARAM_STR);
+               $statementf->bindParam(':cbtype', $cbtype, PDO::PARAM_STR);
+               $statementf->bindParam(':relative', $relative, PDO::PARAM_STR);
+               $statementf->bindParam(':jp_family_member', $jp_family_member, PDO::PARAM_STR);
+               $statementf->bindParam(':accept', $accept, PDO::PARAM_STR);
+               $statementf->execute();
+          }
 
-     $result = $statement2->execute();
-
-     if ($result) {
-          // echo "Data Stored";
-          header("location:index.php");
-     } else {
-          $errors[] = "Error occurred while storing data";
+          if (empty($errors)) {
+               echo 'Data Stored';
+               header('Location: index.php');
+               exit();
+          }
      }
 }
-
 ?>
-
 
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/main.css">
 <form action="datainput2.php" method="POST" enctype="multipart/form-data">
-     <input type="hidden" name="id" value="<?php echo $id ?>">
+     <input type="hidden" name="id" value="<?php echo $id; ?>">
      <div class="container shadow shadow">
-          <b><span>学歴</span></b>
-          <table class="table table-sm table-bordered border-dark">
+          <!-- education -->
+          <b><span>学歴 edu</span></b>
+
+          <table id="education_table" class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
                          <td>開始年</td>
@@ -131,35 +154,37 @@ if (isset($_POST['submit'])) {
                          <td colspan="2">専門</td>
                          <td>免許・資</td>
                     </tr>
-
                </thead>
                <tbody>
-                    <tr>
-                         <td><input type="date" name="education_s_date" id=""></td>
-                         <td><input type="date" name="education_e_date" id=""></td>
-                         <td colspan="2"><input type="text" name="school_name" id=""></td>
-                         <td colspan="2"><input type="text" name="specialize_subject" id=""></td>
-                         <td><input type="text" name="skills" id=""></td>
-                    </tr>
-                    <tr>
-                         <td><input type="date" name="education_s_date_2" id=""></td>
-                         <td><input type="date" name="education_e_date_2" id=""></td>
-                         <td colspan="2"><input type="text" name="school_name_2" id=""></td>
-                         <td colspan="2"><input type="text" name="specialize_subject_2" id=""></td>
-                         <td><input type="text" name="skills_2" id=""></td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td colspan="2"></td>
-                         <td colspan="2"></td>
-                         <td></td>
+                    <tr id="education_row_template">
+                         <td>
+                              <div class="flex">
+                                   <input style="width: 30px;" type="text" name="education_s_year[]"
+                                        class="education_s_year">年
+                                   <input style="width: 30px;" type="text" name="education_s_month[]"
+                                        class="education_s_month">月
+                              </div>
+                         </td>
+                         <td>
+                              <div class="flex">
+                                   <input style="width: 30px;" type="text" name="education_e_year[]"
+                                        class="education_e_year">年
+                                   <input style="width: 30px;" type="text" name="education_e_month[]"
+                                        class="education_e_month">月
+                              </div>
+                         </td>
+                         <td colspan="2"><input type="text" name="school_name[]" class="school_name"></td>
+                         <td colspan="2"><input type="text" name="specialized_subject[]" class="specialized_subject">
+                         </td>
+                         <td><input type="text" name="skills[]" class="skills"></td>
                     </tr>
                </tbody>
           </table>
+          <p id="add_education_row">Add New Row</p>
 
+          <!-- job-exp -->
           <b><span>職歴</span></b>
-          <table class="table table-sm table-bordered border-dark">
+          <table id="job_table" class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
                          <td>開始年</td>
@@ -171,187 +196,188 @@ if (isset($_POST['submit'])) {
 
                </thead>
                <tbody>
-                    <tr>
-                         <td><input type="date" name="job_s_date" id=""></td>
-                         <td><input type="date" name="job_e_date" id=""></td>
-                         <td colspan="2"><input type="text" name="company_name" id=""></td>
-                         <td colspan="2"><input type="text" name="job_type_and_position" id=""></td>
-                         <td><input type="number" name="income" id="" max="10,000,000" min="10" style="width: 50px;">
+
+                    <tr id="job_row_template">
+                         <td>
+                              <div class="flex">
+                                   <input style="width: 30px;" type="text" name="job_s_year[]" class="job_s_year">年
+                                   <input style="width: 30px;" type="text" name="job_s_month[]" class="job_s_month">月
+                              </div>
                          </td>
-                    </tr>
-                    <tr>
-                         <td><input type="date" name="job_s_date_2" id=""></td>
-                         <td><input type="date" name="job_e_date_2" id=""></td>
-                         <td colspan="2"><input type="text" name="company_name_2" id=""></td>
-                         <td colspan="2"><input type="text" name="job_type_and_position_2" id=""></td>
-                         <td><input type="number" name="income_2" id="" max="10,000,000" min="10" style="width: 50px;">
+                         <td>
+                              <div class="flex">
+                                   <input style="width: 30px;" type="text" name="job_e_year[]" class="job_e_year">年
+                                   <input style="width: 30px;" type="text" name="job_e_month[]" class="job_e_month">月
+                              </div>
                          </td>
+                         <td colspan="2"><input type="text" name="company_name[]" class="company_name"></td>
+                         <td colspan="2"><input type="text" name="job_type_and_position[]"
+                                   class="job_type_and_position">
+                         </td>
+                         <td><input type="number" name="income[]" class="income" style="width: 50px;"></td>
                     </tr>
+
                </tbody>
           </table>
+          <p id="add_job_row">Add New Row</p>
+
+          <!-- family-member -->
           <span><b>家族</b></span>
 
-          <table class="table table-sm table-bordered border-dark">
+          <table id="family_table" class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td colspan="2">家族氏名</td>
-                         <td>続柄</td>
-                         <td>年齢</td>
-                         <td>職業</td>
-                         <td>同居</td>
-                         <td>別居</td>
+                         <td colspan="2">name</td>
+                         <td>type</td>
+                         <td>age</td>
+                         <td>job</td>
+                         <td>stay</td>
+                         <td>away</td>
                     </tr>
 
                </thead>
                <tbody>
-                    <tr>
-                         <td colspan="2"><input type="text" name="family_member" id=""></td>
-                         <td><input type="text" name="family_member_type" id=""></td>
-                         <td><input type="number" name="family_member_age" min="1" max="90" id=""></td>
-                         <td><input type="text" name="family_member_job" id=""></td>
+
+                    <tr id="">
+                         <td colspan="2"><input type="text" name="family_member[]" class="family_member"></td>
+                         <td><input type="text" name="family_member_type[]" class="family_member_type">
+                         </td>
+                         <td><input type="number" name="family_member_age[]" class="family_member_age"
+                                   style="width: 50px;"></td>
+                         <td><input type="text" name="family_member_job[]" class="family_member_job"
+                                   style="width: 50px;"></td>
+                         </td>
+                         <!-- <td>
+                              <select name="cbtype[]" id="">
+                                   <option value="stay">stay</option>
+                                   <option value="away">away</option>
+                              </select>
+                         </td> -->
 
                          <td>
-                              <input type="radio" name="rdostay" id="live_radio" value="living"
-                                   onclick="handleRadioSelection(this)">
+                              <input type="checkbox" value="stay" name="cbtype[]" class="stay"
+                                   onclick="disableOtherCheckbox(event)">
                          </td>
                          <td>
-                              <input type="radio" name="rdostay" id="stay_apart_radio" value="stay_apart"
-                                   onclick="handleRadioSelection(this)">
+                              <input type="checkbox" value="away" name="cbtype[]" class="away"
+                                   onclick="disableOtherCheckbox(event)">
                          </td>
-                    </tr>
-                    <tr>
-                         <td colspan="2"><input type="text" name="family_member_2" id=""></td>
-                         <td><input type="text" name="family_member_type_2" id=""></td>
-                         <td><input type="number" name="family_member_age_2" min="1" max="90" id=""></td>
-                         <td><input type="text" name="family_member_job_2" id=""></td>
-
-                         <td>
-                              <input type="radio" name="rdostay_2" id="live_radio_2" value="living"
-                                   onclick="handleRadioSelection(this)">
-                         </td>
-                         <td>
-                              <input type="radio" name="rdostay_2" id="stay_apart_radio_2" value="stay_apart"
-                                   onclick="handleRadioSelection(this)">
-                         </td>
-
 
                     </tr>
+               </tbody>
+               <tfoot>
                     <tr>
-                         <td colspan="2"><input type="text" name="family_member_3" id=""></td>
-                         <td><input type="text" name="family_member_type_3" id=""></td>
-                         <td><input type="number" name="family_member_age_3" min="1" max="90" id=""></td>
-                         <td><input type="text" name="family_member_job_3" id=""></td>
-                         <td>
-                              <input type="radio" name="rdostay_3" id="live_radio_3" value="living"
-                                   onclick="handleRadioSelection(this)">
-                         </td>
-                         <td>
-                              <input type="radio" name="rdostay_3" id="stay_apart_radio_3" value="stay_apart"
-                                   onclick="handleRadioSelection(this)">
-                         </td>
-                    </tr>
-                    <tr>
-                         <td colspan="2">在日親戚？</td>
+                         <td colspan="2">ဂျပန်မှာဆွေမျိူးရှိသလား</td>
                          <td colspan="2">
                               <div class="d-flex justify-content-evenly pt-4">
                                    <div>
                                         <label for="yes">有</label>
-                                        <input type="radio" name="rdorelative" value="有" style="width:10px;">
+                                        <input type="radio" name="rdorelative" id="" value="yes">ရှိ
                                    </div>
                                    <div>
                                         <label for="no">無し</label>
-                                        <input type="radio" name="rdorelative" value="無し" style="width:10px;">
+                                        <input type="radio" name="rdorelative" id="" value="no">မရှိ
                                    </div>
                               </div>
                          </td>
-                         <td colspan="2">有るばい、誰？</td>
-                         <td><input type="text" name="jp_family_member" id=""></td>
+                         <td colspan="2">ရှိပါက တော်စပ်ပုံ</td>
+                         <td><input type="text" class="jp_family_member" name="jp_family_member" id=""></td>
                     </tr>
                     <tr>
-                         <td colspan="4">日本へ行くことに家族は？</td>
+                         <td colspan="4">ဂျပန်သို့သွားရောက်ရန် မိသားစုသဘောထား</td>
                          <td colspan="3">
                               <div class="d-flex justify-content-evenly pt-4">
                                    <div>
-                                        <label for="yes">賛成</label>
-                                        <input type="radio" name="rdoaccept" value="賛成" style="width:10px;">
+                                        <label for="yes">有</label>
+                                        <input type="radio" name="rdoaccept" id="" value="yes">သဘောတူ
                                    </div>
                                    <div>
-                                        <label for="no">反対</label>
-                                        <input type="radio" name="rdoaccept" value="反対" style="width:10px;">
+                                        <label for="no">無し</label>
+                                        <input type="radio" name="rdoaccept" id="" value="no">သဘောမတူ
                                    </div>
                               </div>
                          </td>
                     </tr>
-               </tbody>
+               </tfoot>
           </table>
+          <p id="add_family_row">Add New Row</p>
+
+
           <input type="submit" value="Submit" name="submit" class="btn btn-info">
      </div>
 </form>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+
 <script>
-function handleRadioSelection(radio) {
-     var liveRadio = document.getElementById("live_radio");
-     var stayApartRadio = document.getElementById("stay_apart_radio");
-
-     if (radio.value === "living") {
-          stayApartRadio.checked = false;
-     } else if (radio.value === "stay_apart") {
-          liveRadio.checked = false;
-     }
-}
-
-function handleRadioSelection(radio) {
-     var liveRadio_2 = document.getElementById("live_radio_2");
-     var stayApartRadio_2 = document.getElementById("stay_apart_radio_3");
-
-     if (radio.value === "living") {
-          stayApartRadio_2.checked = false;
-     } else if (radio.value === "stay_apart") {
-          liveRadio_2.checked = false;
-     }
-}
-
-function handleRadioSelection(radio) {
-     var liveRadio_3 = document.getElementById("live_radio");
-     var stayApartRadio_3 = document.getElementById("stay_apart_radio");
-
-     if (radio.value === "living") {
-          stayApartRadio_3.checked = false;
-     } else if (radio.value === "stay_apart") {
-          liveRadio_3.checked = false;
-     }
-}
-</script>
-<!-- <script type="text/javascript">
-     $(document).ready(function() {
-          $(".district").change(function() {
-               var district_id = $(this).val();
-
-               $.ajax({
-                    url: "input.php",
-                    method: "POST",
-                    data: {
-                         district_id: district_id
-                    },
-                    success: function(data) {
-                         $(".state").html(data);
-                    }
-               });
-          });
+$(document).ready(function() {
+     // e.preventDefault()
+     // Add new education row
+     $('#add_education_row').click(function() {
+          $("#education_row_template").clone().appendTo("#education_table");
 
      });
-</script> -->
-<!-- <script>
-     /* if img click input file will be upload */
-     img.onclick = () => file.click()
-     file.addEventListener('change', function() {
-          /* to get file  */
-          let f = file.files[0]
-          /* use url object for to get file url */
-          img.src = URL.createObjectURL(f)
-          console.log(f)
-     })
-</script> -->
+     $('#add_job_row').click(function() {
+          $("#job_row_template").clone().appendTo("#job_table");
+
+     });
+     $('#add_family_row').click(function() {
+          $("#family_row_template").clone().appendTo("#family_table");
+
+     });
+});
+
+// Function to disable the other checkbox in the same row
+function disableOtherCheckbox(event) {
+     const clickedCheckbox = event.target;
+     const row = clickedCheckbox.parentNode.parentNode; // Get the parent row of the clicked checkbox
+     const checkboxes = row.querySelectorAll('input[type="checkbox"]');
+
+     checkboxes.forEach(checkbox => {
+          if (checkbox !== clickedCheckbox) {
+               checkbox.disabled = clickedCheckbox.checked;
+          }
+     });
+}
+
+// Add event listener to the parent element
+const familyTable = document.getElementById('family_table');
+
+familyTable.addEventListener('click', function(event) {
+     if (event.target.matches('.stay') || event.target.matches('.away')) {
+          disableOtherCheckbox(event);
+     }
+});
+
+// Function to add a new row to the table
+function addFamilyRow() {
+     const familyTable = document.getElementById('family_table');
+     const newRow = document.createElement('tr');
+     newRow.innerHTML = `
+     <td colspan="2"><input type="text" name="family_member[]" class="family_member"></td>
+                         <td><input type="text" name="family_member_type[]" class="family_member_type">
+                         </td>
+                         <td><input type="number" name="family_member_age[]" class="family_member_age"
+                                   style="width: 50px;"></td>
+                         <td><input type="text" name="family_member_job[]" class="family_member_job"
+                                   style="width: 50px;"></td>
+                         </td>
+                         <td>
+                              <input type="checkbox" value="stay" name="cbtype[]" class="stay"
+                                   onclick="disableOtherCheckbox(event)">
+                         </td>
+                         <td>
+                              <input type="checkbox" value="away" name="cbtype[]" class="away"
+                                   onclick="disableOtherCheckbox(event)">
+                         </td>
+       `;
+     familyTable.appendChild(newRow);
+}
+
+// Add event listener to the "Add New Row" element
+const addFamilyRowButton = document.getElementById('add_family_row');
+addFamilyRowButton.addEventListener('click', addFamilyRow);
+</script>

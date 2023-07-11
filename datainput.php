@@ -5,7 +5,7 @@ $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
      if (isset($_POST['submit'])) {
-          $id = $_POST['id'];
+          // $id = $_POST['id'];
           $student_id = $_POST['student_id'];
           $photo = $_FILES['photo'];
           $pname = $_FILES['photo']['name'];
@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           $kana_name = $_POST['kana_name'];
           $gender = $_POST['rdogender'];
           $dob = $_POST['dob'];
+
           $age = $_POST['age'];
           $country = $_POST['country'];
           $religion = $_POST['religion'];
@@ -183,11 +184,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="male">男</label>
-                                   <input type="radio" name="rdogender" id="male" value="男" style="width:10px;">
+                                   <input type="radio" name="rdogender" id="male" value="male" style="width:10px;">
                               </div>
                               <div>
                                    <label for="female">女</label>
-                                   <input type="radio" name="rdogender" id="female" value="女" style="width:10px;">
+                                   <input type="radio" name="rdogender" id="female" value="female" style="width:10px;">
                               </div>
                          </div>
 
@@ -435,7 +436,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                </tr>
                <tr>
                     <td colspan="4">3年間の貯蓄目標</td>
-                    <td colspan="3"><input type="number" name="planning_money" id="" min="" max="" style="width: 150px;">万
+                    <td colspan="3"><input type="number" name="planning_money" id="" min="" max=""
+                              style="width: 150px;">万
                     </td>
                </tr>
                <tr>
@@ -471,32 +473,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
-     $(document).ready(function() {
-          $(".district").change(function() {
-               var district_id = $(this).val();
+$(document).ready(function() {
+     $(".district").change(function() {
+          var district_id = $(this).val();
 
-               $.ajax({
-                    url: "input.php",
-                    method: "POST",
-                    data: {
-                         district_id: district_id
-                    },
-                    success: function(data) {
-                         $(".state").html(data);
-                    }
-               });
+          $.ajax({
+               url: "input.php",
+               method: "POST",
+               data: {
+                    district_id: district_id
+               },
+               success: function(data) {
+                    $(".state").html(data);
+               }
           });
-
      });
+
+});
 </script>
 <script>
-     /* if img click input file will be upload */
-     img.onclick = () => file.click()
-     file.addEventListener('change', function() {
-          /* to get file  */
-          let f = file.files[0]
-          /* use url object for to get file url */
-          img.src = URL.createObjectURL(f)
-          console.log(f)
-     })
+/* if img click input file will be upload */
+img.onclick = () => file.click()
+file.addEventListener('change', function() {
+     /* to get file  */
+     let f = file.files[0]
+     /* use url object for to get file url */
+     img.src = URL.createObjectURL(f)
+     console.log(f)
+})
 </script>

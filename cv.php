@@ -1,20 +1,37 @@
 <?php
 require "server/db.php";
-
 $errors = [];
+
 if (isset($_GET['id'])) {
 
      $id = $_GET['id'];
 }
 
+function dobdateformat()
+{
+     $dob = new DateTime("now");
+     $formattedDate = $dob->format("Y") . "  年 " . $dob->format("m") . " 月 " . $dob->format("d") . " 日";
+     echo $formattedDate;
+}
+//	2011 Year 08 Month 28 Day
+// dobdateformat();
+
+function startdateformat()
+{
+     $sdate = new DateTime("now");
+     $formattedDate = $sdate->format("Y") . "  年 " . $sdate->format("m") . " 月 " . $sdate->format("d") . " 日";
+     echo $formattedDate;
+}
+// startdateformat();
+
 $sql = "SELECT * FROM student WHERE student_id = :student_id";
 $statement = $pdo->prepare($sql);
 $statement->bindParam(":student_id", $id, PDO::PARAM_STR);
 $statement->execute();
-
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 // print_r($result);
 // die();
+
 ?>
 
 
@@ -60,6 +77,18 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                          <td rowspan="2"><span>性別</span></td>
                          <td rowspan="2">
                               <?= $value['gender'] ?>
+                              <!-- <div class="d-flex justify-content-evenly pt-4">
+                              <div>
+                                   <label for="male">男</label>
+                                   <input type="radio" name="rdogender" id="male" value="male"
+                                        <?= ($value['gender'] == 'male') ? 'checked' : '' ?> style="width:10px;">
+                              </div>
+                              <div>
+                                   <label for="female">女</label>
+                                   <input type="radio" name="rdogender" id="female" value="female"
+                                        <?= ($value['gender'] == 'female') ? 'checked' : '' ?> style="width:10px;">
+                              </div>
+                         </div> -->
                          </td>
                     </tr>
                     <tr>
@@ -68,7 +97,9 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                     <tr>
                          <td colspan="2">生年月日</td>
-                         <td colspan="2"><?= $value['dob'] ?></td>
+                         <td colspan="2"><?= dobdateformat(); ?></td>
+
+
                          <td colspan="2">年齢</td>
                          <td><?= $value['age'] ?>歳</td>
                     </tr>
@@ -128,7 +159,7 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                     <tr>
                          <td colspan="2">入学日</td>
-                         <td colspan="5"><?= $value['start_date'] ?></td>
+                         <td colspan="5"><?= startdateformat(); ?></td>
                     </tr>
                     <tr>
                          <td colspan="2">日本語能力</td>
@@ -245,55 +276,54 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
           <table class="table table-sm table-bordered border-dark">
                <?php
 
-
-               $sql = "SELECT * FROM associated WHERE student_id = :student_id";
+               $sql = "SELECT * FROM edu WHERE student_id = :student_id";
                $statement = $pdo->prepare($sql);
                $statement->bindParam(":student_id", $id, PDO::PARAM_STR);
                $statement->execute();
-
                $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-               foreach ($result as $key => $value) { ?>
-                    <thead>
-                         <tr>
-                              <td>開始年</td>
-                              <td>終了年</td>
-                              <td colspan="2">学校名</td>
-                              <td colspan="2">専門</td>
-                              <td>免許・資</td>
-                         </tr>
 
-                    </thead>
-                    <tbody>
-                         <tr>
-                              <td><?= $value['education_s_date'] ?></td>
-                              <td><?= $value['education_e_date'] ?></td>
-                              <td colspan="2"><?= $value['school_name'] ?></td>
-                              <td colspan="2"><?= $value['specialize_subject'] ?></td>
-                              <td><?= $value['skills'] ?></td>
-                         </tr>
-                         <tr>
-                              <td><?= $value['education_s_date_2'] ?></td>
-                              <td><?= $value['education_e_date_2'] ?></td>
-                              <td colspan="2"><?= $value['school_name_2'] ?></td>
-                              <td colspan="2"><?= $value['specialize_subject_2'] ?></td>
-                              <td><?= $value['skills_2'] ?></td>
-                         </tr>
-                         <tr>
-                              <td></td>
-                              <td></td>
-                              <td colspan="2"></td>
-                              <td colspan="2"></td>
-                              <td></td>
-                         </tr>
-                    </tbody>
-               <?php
-               }
+               // die();
                ?>
+               <thead>
+                    <tr>
+                         <td>開始年</td>
+                         <td>終了年</td>
+                         <td colspan="2">学校名</td>
+                         <td colspan="2">専門</td>
+                         <td>免許・資</td>
+                    </tr>
+
+               </thead>
+               <tbody>
+
+                    <?php foreach ($result as $row) { ?>
+                         <tr>
+                              <td><?= $row['education_s_year'] ?> Year <?= $row['education_s_month'] ?> Month</td>
+                              <td><?= $row['education_e_year'] ?> Year <?= $row['education_e_month'] ?> Month</td>
+                              <td colspan="2"><?= $row['school_name'] ?></td>
+                              <td colspan="2"><?= $row['specialized_subject'] ?></td>
+                              <td><?= $row['skills'] ?></td>
+                         </tr>
+                    <?php } ?>
+
+               </tbody>
+
           </table>
 
           <b><span>職歴</span></b>
           <table class="table table-sm table-bordered border-dark">
+               <?php
+
+               $sql = "SELECT * FROM job_exp WHERE student_id = :student_id";
+               $statement = $pdo->prepare($sql);
+               $statement->bindParam(":student_id", $id, PDO::PARAM_STR);
+               $statement->execute();
+               $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+               // die();
+               ?>
                <thead>
                     <tr>
                          <td>開始年</td>
@@ -305,27 +335,33 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                </thead>
                <tbody>
-                    <tr>
-                         <td><?= $value['job_s_date'] ?></td>
-                         <td><?= $value['job_e_date'] ?></td>
-                         <td colspan="2"><?= $value['company_name'] ?></td>
-                         <td colspan="2"><?= $value['job_type_and_position'] ?></td>
-                         <td><?= $value['income'] ?>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td><?= $value['job_s_date_2'] ?></td>
-                         <td><?= $value['job_e_date_2'] ?></td>
-                         <td colspan="2"><?= $value['company_name_2'] ?></td>
-                         <td colspan="2"><?= $value['job_type_and_position_2'] ?></td>
-                         <td><?= $value['income_2'] ?>
-                         </td>
-                    </tr>
+                    <?php foreach ($result as $row) { ?>
+                         <tr>
+                              <td><?= $row['job_s_year'] ?> Year <?= $row['job_s_month'] ?> Month</td>
+                              <td><?= $row['job_e_year'] ?> Year <?= $row['job_e_month'] ?> Month</td>
+                              <td colspan="2"><?= $row['company_name'] ?></td>
+                              <td colspan="2"><?= $row['job_type_and_position'] ?></td>
+                              <td><?= $row['income'] ?></td>
+                         </tr>
+                    <?php } ?>
                </tbody>
           </table>
+
+
           <span><b>家族</b></span>
 
           <table class="table table-sm table-bordered border-dark">
+               <?php
+
+               $sql = "SELECT * FROM family_info WHERE student_id = :student_id";
+               $statement = $pdo->prepare($sql);
+               $statement->bindParam(":student_id", $id, PDO::PARAM_STR);
+               $statement->execute();
+               $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+               // die();
+               ?>
                <thead>
                     <tr>
                          <td colspan="2">家族氏名</td>
@@ -338,52 +374,38 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                </thead>
                <tbody>
-                    <tr>
-                         <td colspan="2"><?= $value['family_member'] ?></td>
-                         <td><?= $value['family_member_type'] ?></td>
-                         <td><?= $value['family_member_age'] ?></td>
-                         <td><?= $value['family_member_job'] ?></td>
-                         <td><?= $value['living'] ?>
-                         </td>
-                         <td>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td colspan="2"><?= $value['family_member_2'] ?></td>
-                         <td><?= $value['family_member_type_2'] ?></td>
-                         <td><?= $value['family_member_age_2'] ?></td>
-                         <td><?= $value['family_member_job_2'] ?></td>
-                         <td><?= $value['living_2'] ?>
-                         </td>
-                         <td>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td colspan="2"><?= $value['family_member_3'] ?></td>
-                         <td><?= $value['family_member_type_3'] ?></td>
-                         <td><?= $value['family_member_age_3'] ?></td>
-                         <td><?= $value['family_member_job_3'] ?></td>
-                         <td><?= $value['living_3'] ?>
-                         </td>
-                         <td>
-                         </td>
-                    </tr>
+                    <?php foreach ($result as $row) { ?>
+
+                         <tr>
+                              <td colspan="2"><?= $row['family_member'] ?></td>
+                              <td><?= $row['family_member_type'] ?></td>
+                              <td><?= $row['family_member_age'] ?></td>
+                              <td><?= $row['family_member_job'] ?></td>
+                              <td><?= $row['cbtype'] === "stay" ? "&#10003;" : "" ?></td>
+                              <td><?= $row['cbtype'] === "away" ? "&#10003;" : "" ?></td>
+
+
+                         </tr>
+
+                    <?php } ?>
+
                     <tr>
                          <td colspan="2">在日親戚？</td>
                          <td colspan="2">
-                              <?= $value['relative'] ?>
+                              <?= $row['relative'] ?>
                          </td>
                          <td colspan="2">有るばい、誰？</td>
-                         <td><?= $value['jp_family_member'] ?></td>
+                         <td><?= $row['jp_family_member'] ?></td>
                     </tr>
                     <tr>
                          <td colspan="4">日本へ行くことに家族は？</td>
                          <td colspan="3">
-                              <?= $value['accept'] ?>
+                              <?= $row['accept'] ?>
                          </td>
                     </tr>
                </tbody>
           </table>
+
      </div>
 </form>
 
