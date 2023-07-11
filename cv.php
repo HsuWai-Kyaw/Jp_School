@@ -299,8 +299,8 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                     <?php foreach ($result as $row) { ?>
                          <tr>
-                              <td><?= $row['education_s_year'] ?> Year <?= $row['education_s_month'] ?> Month</td>
-                              <td><?= $row['education_e_year'] ?> Year <?= $row['education_e_month'] ?> Month</td>
+                              <td><?= $row['education_s_year'] ?> 年 <?= $row['education_s_month'] ?> 月</td>
+                              <td><?= $row['education_e_year'] ?> 年 <?= $row['education_e_month'] ?> 月</td>
                               <td colspan="2"><?= $row['school_name'] ?></td>
                               <td colspan="2"><?= $row['specialized_subject'] ?></td>
                               <td><?= $row['skills'] ?></td>
@@ -337,8 +337,8 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                <tbody>
                     <?php foreach ($result as $row) { ?>
                          <tr>
-                              <td><?= $row['job_s_year'] ?> Year <?= $row['job_s_month'] ?> Month</td>
-                              <td><?= $row['job_e_year'] ?> Year <?= $row['job_e_month'] ?> Month</td>
+                              <td><?= $row['job_s_year'] ?> 年 <?= $row['job_s_month'] ?> 月</td>
+                              <td><?= $row['job_e_year'] ?> 年 <?= $row['job_e_month'] ?> 月</td>
                               <td colspan="2"><?= $row['company_name'] ?></td>
                               <td colspan="2"><?= $row['job_type_and_position'] ?></td>
                               <td><?= $row['income'] ?></td>

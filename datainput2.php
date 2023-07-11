@@ -159,18 +159,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <tr id="education_row_template">
                          <td>
                               <div class="flex">
-                                   <input style="width: 30px;" type="text" name="education_s_year[]"
-                                        class="education_s_year">年
-                                   <input style="width: 30px;" type="text" name="education_s_month[]"
-                                        class="education_s_month">月
+                                   <input style="width: 30px;" type="text" name="education_s_year[]" class="education_s_year">年
+                                   <input style="width: 30px;" type="text" name="education_s_month[]" class="education_s_month">月
                               </div>
                          </td>
                          <td>
                               <div class="flex">
-                                   <input style="width: 30px;" type="text" name="education_e_year[]"
-                                        class="education_e_year">年
-                                   <input style="width: 30px;" type="text" name="education_e_month[]"
-                                        class="education_e_month">月
+                                   <input style="width: 30px;" type="text" name="education_e_year[]" class="education_e_year">年
+                                   <input style="width: 30px;" type="text" name="education_e_month[]" class="education_e_month">月
                               </div>
                          </td>
                          <td colspan="2"><input type="text" name="school_name[]" class="school_name"></td>
@@ -211,8 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                               </div>
                          </td>
                          <td colspan="2"><input type="text" name="company_name[]" class="company_name"></td>
-                         <td colspan="2"><input type="text" name="job_type_and_position[]"
-                                   class="job_type_and_position">
+                         <td colspan="2"><input type="text" name="job_type_and_position[]" class="job_type_and_position">
                          </td>
                          <td><input type="number" name="income[]" class="income" style="width: 50px;"></td>
                     </tr>
@@ -242,10 +237,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          <td colspan="2"><input type="text" name="family_member[]" class="family_member"></td>
                          <td><input type="text" name="family_member_type[]" class="family_member_type">
                          </td>
-                         <td><input type="number" name="family_member_age[]" class="family_member_age"
-                                   style="width: 50px;"></td>
-                         <td><input type="text" name="family_member_job[]" class="family_member_job"
-                                   style="width: 50px;"></td>
+                         <td><input type="number" name="family_member_age[]" class="family_member_age" style="width: 50px;"></td>
+                         <td><input type="text" name="family_member_job[]" class="family_member_job" style="width: 50px;"></td>
                          </td>
                          <!-- <td>
                               <select name="cbtype[]" id="">
@@ -255,45 +248,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          </td> -->
 
                          <td>
-                              <input type="checkbox" value="stay" name="cbtype[]" class="stay"
-                                   onclick="disableOtherCheckbox(event)">
+                              <input type="checkbox" value="stay" name="cbtype[]" class="stay" onclick="disableOtherCheckbox(event)">
                          </td>
                          <td>
-                              <input type="checkbox" value="away" name="cbtype[]" class="away"
-                                   onclick="disableOtherCheckbox(event)">
+                              <input type="checkbox" value="away" name="cbtype[]" class="away" onclick="disableOtherCheckbox(event)">
                          </td>
 
                     </tr>
                </tbody>
                <tfoot>
                     <tr>
-                         <td colspan="2">ဂျပန်မှာဆွေမျိူးရှိသလား</td>
+                         <td colspan="2">在日親戚？</td>
                          <td colspan="2">
                               <div class="d-flex justify-content-evenly pt-4">
                                    <div>
                                         <label for="yes">有</label>
-                                        <input type="radio" name="rdorelative" id="" value="yes">ရှိ
+                                        <input type="radio" name="rdorelative" id="" value="有">
                                    </div>
                                    <div>
                                         <label for="no">無し</label>
-                                        <input type="radio" name="rdorelative" id="" value="no">မရှိ
+                                        <input type="radio" name="rdorelative" id="" value="無し">
                                    </div>
                               </div>
                          </td>
-                         <td colspan="2">ရှိပါက တော်စပ်ပုံ</td>
+                         <td colspan="2">有るばい、誰？</td>
                          <td><input type="text" class="jp_family_member" name="jp_family_member" id=""></td>
                     </tr>
                     <tr>
-                         <td colspan="4">ဂျပန်သို့သွားရောက်ရန် မိသားစုသဘောထား</td>
+                         <td colspan="4">日本へ行くことに家族は？</td>
                          <td colspan="3">
                               <div class="d-flex justify-content-evenly pt-4">
                                    <div>
                                         <label for="yes">有</label>
-                                        <input type="radio" name="rdoaccept" id="" value="yes">သဘောတူ
+                                        <input type="radio" name="rdoaccept" id="" value="有">
                                    </div>
                                    <div>
                                         <label for="no">無し</label>
-                                        <input type="radio" name="rdoaccept" id="" value="no">သဘောမတူ
+                                        <input type="radio" name="rdoaccept" id="" value="無し">
                                    </div>
                               </div>
                          </td>
@@ -313,50 +304,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="js/bootstrap.bundle.min.js"></script>
 
 <script>
-$(document).ready(function() {
-     // e.preventDefault()
-     // Add new education row
-     $('#add_education_row').click(function() {
-          $("#education_row_template").clone().appendTo("#education_table");
+     $(document).ready(function() {
+          // e.preventDefault()
+          // Add new education row
+          $('#add_education_row').click(function() {
+               $("#education_row_template").clone().appendTo("#education_table");
 
+          });
+          $('#add_job_row').click(function() {
+               $("#job_row_template").clone().appendTo("#job_table");
+
+          });
+          $('#add_family_row').click(function() {
+               $("#family_row_template").clone().appendTo("#family_table");
+
+          });
      });
-     $('#add_job_row').click(function() {
-          $("#job_row_template").clone().appendTo("#job_table");
 
-     });
-     $('#add_family_row').click(function() {
-          $("#family_row_template").clone().appendTo("#family_table");
+     // Function to disable the other checkbox in the same row
+     function disableOtherCheckbox(event) {
+          const clickedCheckbox = event.target;
+          const row = clickedCheckbox.parentNode.parentNode; // Get the parent row of the clicked checkbox
+          const checkboxes = row.querySelectorAll('input[type="checkbox"]');
 
-     });
-});
+          checkboxes.forEach(checkbox => {
+               if (checkbox !== clickedCheckbox) {
+                    checkbox.disabled = clickedCheckbox.checked;
+               }
+          });
+     }
 
-// Function to disable the other checkbox in the same row
-function disableOtherCheckbox(event) {
-     const clickedCheckbox = event.target;
-     const row = clickedCheckbox.parentNode.parentNode; // Get the parent row of the clicked checkbox
-     const checkboxes = row.querySelectorAll('input[type="checkbox"]');
+     // Add event listener to the parent element
+     const familyTable = document.getElementById('family_table');
 
-     checkboxes.forEach(checkbox => {
-          if (checkbox !== clickedCheckbox) {
-               checkbox.disabled = clickedCheckbox.checked;
+     familyTable.addEventListener('click', function(event) {
+          if (event.target.matches('.stay') || event.target.matches('.away')) {
+               disableOtherCheckbox(event);
           }
      });
-}
 
-// Add event listener to the parent element
-const familyTable = document.getElementById('family_table');
-
-familyTable.addEventListener('click', function(event) {
-     if (event.target.matches('.stay') || event.target.matches('.away')) {
-          disableOtherCheckbox(event);
-     }
-});
-
-// Function to add a new row to the table
-function addFamilyRow() {
-     const familyTable = document.getElementById('family_table');
-     const newRow = document.createElement('tr');
-     newRow.innerHTML = `
+     // Function to add a new row to the table
+     function addFamilyRow() {
+          const familyTable = document.getElementById('family_table');
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `
      <td colspan="2"><input type="text" name="family_member[]" class="family_member"></td>
                          <td><input type="text" name="family_member_type[]" class="family_member_type">
                          </td>
@@ -374,10 +365,10 @@ function addFamilyRow() {
                                    onclick="disableOtherCheckbox(event)">
                          </td>
        `;
-     familyTable.appendChild(newRow);
-}
+          familyTable.appendChild(newRow);
+     }
 
-// Add event listener to the "Add New Row" element
-const addFamilyRowButton = document.getElementById('add_family_row');
-addFamilyRowButton.addEventListener('click', addFamilyRow);
+     // Add event listener to the "Add New Row" element
+     const addFamilyRowButton = document.getElementById('add_family_row');
+     addFamilyRowButton.addEventListener('click', addFamilyRow);
 </script>

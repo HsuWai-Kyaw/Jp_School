@@ -12,14 +12,13 @@ if (isset($_POST['submit'])) {
      $q->execute();
      $result = $q->fetchAll(PDO::FETCH_ASSOC);
 } else {
-     $sql = "SELECT `student_id`, `name`, `tel`, `jp_lan_skill` FROM `student` ORDER BY student_id DESC";
+     $sql = "SELECT `student_id`, `name`, `kana_name`, `passport`, `tel`, `jp_lan_skill` FROM `student` ORDER BY student_id DESC";
      $statement = $pdo->prepare($sql);
      $statement->execute();
      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,22 +58,23 @@ if (isset($_POST['submit'])) {
           </nav>
      </div>
 
-
      <div class="col-10">
           <table class="table m-3 align-middle mb-0 bg-white">
                <thead>
                     <tr>
-                         <th><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></th>
+                         <!-- <th><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></th> -->
                          <th scope="col">No</th>
                          <th scope="col">Student ID</th>
-                         <th scope="col" colspan="2">Student Name</th>
-                         <th scope="col">Telephone</th>
-                         <th scope="col">Language Level</th>
+                         <th scope="col">名前</th>
+                         <th scope="col">ふりがな</th>
+                         <th scope="col">パスポート番号</th>
+                         <th scope="col">電話番号</th>
+                         <th scope="col">日本語能力</th>
                          <th scope="col">Action</th>
                     </tr>
                </thead>
                <?php
-               // $record_per_page = 5;
+               // $record_per_page = 15;
                // $page = "";
 
                // if (isset($_GET['page'])) {
@@ -92,20 +92,22 @@ if (isset($_POST['submit'])) {
                // $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                ?>
                <tbody>
+
                     <?php foreach ($result as $key => $value) { ?>
 
                          <!-- print_r($value['name']); -->
-                         <tr>
-                              <td><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></td>
-                              <th><?= ++$key ?></th>
-                              <td scope="row" colspan="2"><?= $value['student_id'] ?></td>
-                              <td scope="row"><?= $value['name'] ?></td>
-                              <td scope="row"><?= $value['tel'] ?></td>
-                              <td scope="row"><?= $value['jp_lan_skill'] ?></td>
-                              <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
-                              <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
 
-                              </td>
+                         <th><?= ++$key ?></th>
+                         <td scope="row"><?= $value['student_id'] ?></td>
+                         <td scope="row"><?= $value['name'] ?></td>
+                         <td scope="row"><?= $value['kana_name'] ?></td>
+                         <td scope="row"><?= $value['passport'] ?></td>
+                         <td scope="row"><?= $value['tel'] ?></td>
+                         <td scope="row"><?= $value['jp_lan_skill'] ?></td>
+                         <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
+                         <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
+
+                         </td>
 
                          </tr>
                     <?php  } ?>
@@ -117,17 +119,17 @@ if (isset($_POST['submit'])) {
 
      <!-- <div class="pagination m-auto" style="width: fit-content;">
           <?php
-          $p_query = "SELECT * FROM student ORDER BY student_id DESC";
+          $p_query = "SELECT * FROM `student` ORDER BY student_id DESC";
           $p_result = $pdo->prepare($p_query);
           $p_result->execute();
 
           $total_records = $p_result->rowCount();
-          //     print_r($total_records);
-          //     die();
+          // print_r($total_records);
+          // die();
 
           $total_pages = ceil($total_records / $record_per_page);
           for ($i = 1; $i < $total_pages; $i++) {
-               echo "<a class='px-3 py-1 border text-center mx-2' href='dashboard.php?page=" . $i . "'> " . $i . "</a>";
+               echo "<a class='px-3 py-1 border text-center mx-2' href='index.php?page=" . $i . "'> " . $i . "</a>";
           }
           ?>
      </div> -->

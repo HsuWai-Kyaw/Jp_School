@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           $old_visa = $_POST['old_visa'];
           // $associated_id = $_POST['associated_id'];
 
-
           // Insert into the "state" table
           $state_name = $_POST['state_name'];
           $query = "INSERT INTO state (state_name, district_id) VALUES (:state_name, :district_id)";
@@ -84,59 +83,73 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           // Retrieve the last inserted ID for nrc_id
           $nrc_id = $pdo->lastInsertId();
 
-          $sql = "INSERT INTO `student`(`student_id`, `photo`, `name`, `kana_name`, `gender`, `dob`, `age`, `country`, `religion`, `nrc_id`, `passport`, `address`, `per_address`, `tel`, `start_date`, `jp_lan_skill`, `height`, `weight`, `marriage`, `blood_type`, `eye_test`, `color_blind`, `hand`, `cook`, `disease`, `tattoo`, `smoke`, `drunk`, `languages`, `certificate`, `objective`, `teamwork`, `family_income`, `type_of_visa`, `planning_money`, `myanmar_job`, `form`, `old_visa`)
+          $check_Sid = "SELECT * FROM student WHERE student_id = :student_id";
+          $statement = $pdo->prepare($check_Sid);
+          $statement->bindParam(":student_id", $student_id, PDO::PARAM_STR);
+          $statement->execute();
+          $res = $statement->fetch();
+          // print_r($res);
+          // die();
+
+          if (isset($res)) {
+               if ($student_id === $res['student_id']) {
+                    echo "<script>alert('This Student ID already exists!')</script>";
+               } else {
+                    $sql = "INSERT INTO `student`(`student_id`, `photo`, `name`, `kana_name`, `gender`, `dob`, `age`, `country`, `religion`, `nrc_id`, `passport`, `address`, `per_address`, `tel`, `start_date`, `jp_lan_skill`, `height`, `weight`, `marriage`, `blood_type`, `eye_test`, `color_blind`, `hand`, `cook`, `disease`, `tattoo`, `smoke`, `drunk`, `languages`, `certificate`, `objective`, `teamwork`, `family_income`, `type_of_visa`, `planning_money`, `myanmar_job`, `form`, `old_visa`)
           VALUES (:student_id, :photo, :student_name, :kana_name, :gender, :dob, :age, :country, :religion, :nrc_id, :passport, :address, :per_address, :tel, :start_date, :jp_lan_skill, :height, :weight, :marriage, :blood_type, :eye_test, :color_blind, :hand, :cook, :disease, :tattoo, :smoke, :drunk, :languages, :certificate, :objective, :teamwork, :family_income, :type_of_visa, :planning_money, :myanmar_job, :form, :old_visa)";
 
 
-          $statement = $pdo->prepare($sql);
+                    $statement = $pdo->prepare($sql);
 
 
-          $statement->bindParam(":student_id", $student_id, PDO::PARAM_STR);
-          $statement->bindParam(":photo", $pname, PDO::PARAM_STR);
-          $statement->bindParam(":student_name", $name, PDO::PARAM_STR);
-          $statement->bindParam(":kana_name", $kana_name, PDO::PARAM_STR);
-          $statement->bindParam(":gender", $gender, PDO::PARAM_STR);
-          $statement->bindParam(":dob", $dob, PDO::PARAM_STR);
-          $statement->bindParam(":age", $age, PDO::PARAM_STR);
-          $statement->bindParam(":country", $country, PDO::PARAM_STR);
-          $statement->bindParam(":religion", $religion, PDO::PARAM_STR);
-          $statement->bindParam(":nrc_id", $nrc_id, PDO::PARAM_STR);
-          $statement->bindParam(":passport", $passport, PDO::PARAM_STR);
-          $statement->bindParam(":address", $address, PDO::PARAM_STR);
-          $statement->bindParam(":per_address", $per_address, PDO::PARAM_STR);
-          $statement->bindParam(":tel", $tel, PDO::PARAM_STR);
-          $statement->bindParam(":start_date", $start_date, PDO::PARAM_STR);
-          $statement->bindParam(":jp_lan_skill", $jp_lan_skill, PDO::PARAM_STR);
-          $statement->bindParam(":height", $height, PDO::PARAM_STR);
-          $statement->bindParam(":weight", $weight, PDO::PARAM_STR);
-          $statement->bindParam(":marriage", $marriage, PDO::PARAM_STR);
-          $statement->bindParam(":blood_type", $blood_type, PDO::PARAM_STR);
-          $statement->bindParam(":eye_test", $eye_test, PDO::PARAM_STR);
-          $statement->bindParam(":color_blind", $color_blind, PDO::PARAM_STR);
-          $statement->bindParam(":hand", $hand, PDO::PARAM_STR);
-          $statement->bindParam(":cook", $cook, PDO::PARAM_STR);
-          $statement->bindParam(":disease", $disease, PDO::PARAM_STR);
-          $statement->bindParam(":tattoo", $tattoo, PDO::PARAM_STR);
-          $statement->bindParam(":smoke", $smoke, PDO::PARAM_STR);
-          $statement->bindParam(":drunk", $drunk, PDO::PARAM_STR);
-          $statement->bindParam(":languages", $languages, PDO::PARAM_STR);
-          $statement->bindParam(":certificate", $certificate, PDO::PARAM_STR);
-          $statement->bindParam(":objective", $objective, PDO::PARAM_STR);
-          $statement->bindParam(":teamwork", $teamwork, PDO::PARAM_STR);
-          $statement->bindParam(":family_income", $family_income, PDO::PARAM_STR);
-          $statement->bindParam(":type_of_visa", $type_of_visa, PDO::PARAM_STR);
-          $statement->bindParam(":planning_money", $planning_money, PDO::PARAM_STR);
-          $statement->bindParam(":myanmar_job", $myanmar_job, PDO::PARAM_STR);
-          $statement->bindParam(":form", $form, PDO::PARAM_STR);
-          $statement->bindParam(":old_visa", $old_visa, PDO::PARAM_STR);
+                    $statement->bindParam(":student_id", $student_id, PDO::PARAM_STR);
+                    $statement->bindParam(":photo", $pname, PDO::PARAM_STR);
+                    $statement->bindParam(":student_name", $name, PDO::PARAM_STR);
+                    $statement->bindParam(":kana_name", $kana_name, PDO::PARAM_STR);
+                    $statement->bindParam(":gender", $gender, PDO::PARAM_STR);
+                    $statement->bindParam(":dob", $dob, PDO::PARAM_STR);
+                    $statement->bindParam(":age", $age, PDO::PARAM_STR);
+                    $statement->bindParam(":country", $country, PDO::PARAM_STR);
+                    $statement->bindParam(":religion", $religion, PDO::PARAM_STR);
+                    $statement->bindParam(":nrc_id", $nrc_id, PDO::PARAM_STR);
+                    $statement->bindParam(":passport", $passport, PDO::PARAM_STR);
+                    $statement->bindParam(":address", $address, PDO::PARAM_STR);
+                    $statement->bindParam(":per_address", $per_address, PDO::PARAM_STR);
+                    $statement->bindParam(":tel", $tel, PDO::PARAM_STR);
+                    $statement->bindParam(":start_date", $start_date, PDO::PARAM_STR);
+                    $statement->bindParam(":jp_lan_skill", $jp_lan_skill, PDO::PARAM_STR);
+                    $statement->bindParam(":height", $height, PDO::PARAM_STR);
+                    $statement->bindParam(":weight", $weight, PDO::PARAM_STR);
+                    $statement->bindParam(":marriage", $marriage, PDO::PARAM_STR);
+                    $statement->bindParam(":blood_type", $blood_type, PDO::PARAM_STR);
+                    $statement->bindParam(":eye_test", $eye_test, PDO::PARAM_STR);
+                    $statement->bindParam(":color_blind", $color_blind, PDO::PARAM_STR);
+                    $statement->bindParam(":hand", $hand, PDO::PARAM_STR);
+                    $statement->bindParam(":cook", $cook, PDO::PARAM_STR);
+                    $statement->bindParam(":disease", $disease, PDO::PARAM_STR);
+                    $statement->bindParam(":tattoo", $tattoo, PDO::PARAM_STR);
+                    $statement->bindParam(":smoke", $smoke, PDO::PARAM_STR);
+                    $statement->bindParam(":drunk", $drunk, PDO::PARAM_STR);
+                    $statement->bindParam(":languages", $languages, PDO::PARAM_STR);
+                    $statement->bindParam(":certificate", $certificate, PDO::PARAM_STR);
+                    $statement->bindParam(":objective", $objective, PDO::PARAM_STR);
+                    $statement->bindParam(":teamwork", $teamwork, PDO::PARAM_STR);
+                    $statement->bindParam(":family_income", $family_income, PDO::PARAM_STR);
+                    $statement->bindParam(":type_of_visa", $type_of_visa, PDO::PARAM_STR);
+                    $statement->bindParam(":planning_money", $planning_money, PDO::PARAM_STR);
+                    $statement->bindParam(":myanmar_job", $myanmar_job, PDO::PARAM_STR);
+                    $statement->bindParam(":form", $form, PDO::PARAM_STR);
+                    $statement->bindParam(":old_visa", $old_visa, PDO::PARAM_STR);
 
-          $res = $statement->execute();
+                    $result = $statement->execute();
 
-          if ($res) {
-               // echo "Data Stored";
-               header("location:datainput2.php?id=$student_id");
-          } else {
-               $errors[] = "Error occurred while storing data";
+                    if ($result) {
+                         // echo "Data Stored";
+                         header("location:datainput2.php?id=$student_id");
+                    } else {
+                         $errors[] = "Error occurred while storing data";
+                    }
+               }
           }
      }
 }
@@ -184,11 +197,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="male">男</label>
-                                   <input type="radio" name="rdogender" id="male" value="male" style="width:10px;">
+                                   <input type="radio" name="rdogender" id="male" value="男" style="width:10px;">
                               </div>
                               <div>
                                    <label for="female">女</label>
-                                   <input type="radio" name="rdogender" id="female" value="female" style="width:10px;">
+                                   <input type="radio" name="rdogender" id="female" value="女" style="width:10px;">
                               </div>
                          </div>
 
@@ -436,8 +449,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                </tr>
                <tr>
                     <td colspan="4">3年間の貯蓄目標</td>
-                    <td colspan="3"><input type="number" name="planning_money" id="" min="" max=""
-                              style="width: 150px;">万
+                    <td colspan="3"><input type="number" name="planning_money" id="" min="" max="" style="width: 150px;">万
                     </td>
                </tr>
                <tr>
@@ -473,32 +485,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-     $(".district").change(function() {
-          var district_id = $(this).val();
+     $(document).ready(function() {
+          $(".district").change(function() {
+               var district_id = $(this).val();
 
-          $.ajax({
-               url: "input.php",
-               method: "POST",
-               data: {
-                    district_id: district_id
-               },
-               success: function(data) {
-                    $(".state").html(data);
-               }
+               $.ajax({
+                    url: "input.php",
+                    method: "POST",
+                    data: {
+                         district_id: district_id
+                    },
+                    success: function(data) {
+                         $(".state").html(data);
+                    }
+               });
           });
-     });
 
-});
+     });
 </script>
 <script>
-/* if img click input file will be upload */
-img.onclick = () => file.click()
-file.addEventListener('change', function() {
-     /* to get file  */
-     let f = file.files[0]
-     /* use url object for to get file url */
-     img.src = URL.createObjectURL(f)
-     console.log(f)
-})
+     /* if img click input file will be upload */
+     img.onclick = () => file.click()
+     file.addEventListener('change', function() {
+          /* to get file  */
+          let f = file.files[0]
+          /* use url object for to get file url */
+          img.src = URL.createObjectURL(f)
+          console.log(f)
+     })
 </script>
