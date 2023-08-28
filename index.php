@@ -1,12 +1,13 @@
 <?php
 require "server/db.php";
+require "header.php";
 
 // print_r($result);
 // die();
 
 if (isset($_POST['submit'])) {
      $keyword = $_POST['search'];
-     $sql = "SELECT * FROM `student` WHERE `student_id` LIKE :keyword;";
+     $sql = "SELECT * FROM `student` WHERE `student_id` LIKE :keyword";
      $q = $pdo->prepare($sql);
      $q->bindValue(':keyword', '%' . $keyword . '%');
      $q->execute();
@@ -20,83 +21,63 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<div class="header w-auto shadow m-auto p-3">
+     <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
+               <a class="navbar-brand" href="index.php">Student List</a>
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                         <li class="nav-item">
+                              <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                         </li>
+                         <li class="nav-item">
+                              <a class="nav-link" href="datainput.php">Add New +</a>
+                         </li>
 
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Document</title>
-     <link rel="stylesheet" href="css/bootstrap.min.css">
-     <link rel="stylesheet" href="css/main.css">
-</head>
-
-<body>
-     <div class="header w-auto shadow m-auto p-3">
-          <nav class="navbar navbar-expand-lg bg-body-tertiary">
-               <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Student List</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                         aria-expanded="false" aria-label="Toggle navigation">
-                         <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                              <li class="nav-item">
-                                   <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-                              </li>
-                              <li class="nav-item">
-                                   <a class="nav-link" href="datainput.php">Add New +</a>
-                              </li>
-
-                         </ul>
-                         <form action="index.php" class="d-flex" method="POST" role="search">
-                              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                                   name="search">
-                              <button class="btn btn-outline-success" type="submit" name="submit">Search</button>
-                         </form>
-                    </div>
+                    </ul>
+                    <form action="index.php" class="d-flex" method="POST" role="search">
+                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                         <button class="btn btn-outline-success" type="submit" name="submit">Search</button>
+                    </form>
                </div>
-          </nav>
-     </div>
+          </div>
+     </nav>
+</div>
 
-     <div class="col-10">
-          <table class="table m-3 align-middle mb-0 bg-white">
-               <thead>
-                    <tr>
-                         <!-- <th><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></th> -->
-                         <th scope="col">No</th>
-                         <th scope="col">Student ID</th>
-                         <th scope="col">名前</th>
-                         <th scope="col">ふりがな</th>
-                         <th scope="col">パスポート番号</th>
-                         <th scope="col">電話番号</th>
-                         <th scope="col">日本語能力</th>
-                         <th scope="col">Action</th>
-                    </tr>
-               </thead>
-               <?php
-               // $record_per_page = 15;
-               // $page = "";
+<div class="col-10">
+     <table class="table m-3 align-middle mb-0 bg-white">
+          <thead>
+               <tr>
+                    <!-- <th><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></th> -->
+                    <th scope="col">No</th>
+                    <th scope="col">Student ID</th>
+                    <th scope="col">名前</th>
+                    <th scope="col">ふりがな</th>
+                    <th scope="col">パスポート番号</th>
+                    <th scope="col">電話番号</th>
+                    <th scope="col">日本語能力</th>
+                    <th scope="col" colspan="2">Action</th>
+               </tr>
+          </thead>
+          <?php
 
-               // if (isset($_GET['page'])) {
-               //      $page = $_GET['page'];
-               // } else {
-               //      $page = 1;
-               // }
-               // $start_page = ($page - 1) * $record_per_page;
-               // $u_query = "SELECT * FROM student LIMIT :start_page, :record_per_page";
-               // $statement = $pdo->prepare($u_query);
-               // $statement->bindParam(":start_page", $start_page, PDO::PARAM_INT);
-               // $statement->bindParam(":record_per_page", $record_per_page, PDO::PARAM_INT);
-               // $statement->execute();
+          $record_per_page = 5; // Number of items to display per page
+          $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+          $start_page = ($page - 1) * $record_per_page;
+          $student_query = "SELECT * FROM student LIMIT :start_page,:record_per_page";
+          $s = $pdo->prepare($student_query);
+          $s->bindParam(":start_page", $start_page, PDO::PARAM_INT);
+          $s->bindParam(":record_per_page", $record_per_page, PDO::PARAM_INT);
+          $s->execute();
+          $allusers = $s->fetchAll(PDO::FETCH_ASSOC);
 
-               // $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-               ?>
-               <tbody>
+          ?>
+          <tbody>
 
-                    <?php foreach ($result as $key => $value) { ?>
+               <?php foreach ($allusers as $key => $value) { ?>
 
                     <!-- print_r($value['name']); -->
 
@@ -107,46 +88,52 @@ if (isset($_POST['submit'])) {
                     <td scope="row"><?= $value['passport'] ?></td>
                     <td scope="row"><?= $value['tel'] ?></td>
                     <td scope="row"><?= $value['jp_lan_skill'] ?></td>
-                    <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>">Detail</a></td>
-                    <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>">Delete</a>
+                    <td scope="row"><a href="cv.php?id=<?= $value['student_id'] ?>" class="btn btn-sm btn-info">Detail</a>
+                    </td>
+                    <td scope="row"> <a href="data_edit.php?id=<?= $value['student_id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+
+                    </td>
+                    <td scope="row"><a href="delete.php?id=<?= $value['student_id']; ?>" class="btn btn-sm btn-danger" onclick="alert('are you sure?')">Delete</a>
 
                     </td>
 
                     </tr>
-                    <?php  } ?>
+               <?php  } ?>
 
-               </tbody>
-          </table>
+          </tbody>
+     </table>
 
-     </div>
+</div>
 
-     <!-- <div class="pagination m-auto" style="width: fit-content;">
-          <?php
-          $p_query = "SELECT * FROM `student` ORDER BY student_id DESC";
-          $p_result = $pdo->prepare($p_query);
-          $p_result->execute();
+<div class="pagination m-auto " style="width: fit-content;">
+     <?php
+     $page_qry = "SELECT * FROM student ORDER BY student_id DESC";
+     $page_res = $pdo->prepare($page_qry);
+     $page_res->execute();
+     $total_records = $page_res->rowCount();
+     // print_r($total_records);
+     // die();
+     $total_pages = ceil($total_records / $record_per_page);
+     echo '<div>';
+     if ($page > 1) {
+          echo '<a href="?page=' . ($page - 1) . '">Previous</a> ';
+     }
 
-          $total_records = $p_result->rowCount();
-          // print_r($total_records);
-          // die();
-
-          $total_pages = ceil($total_records / $record_per_page);
-          for ($i = 1; $i < $total_pages; $i++) {
-               echo "<a class='px-3 py-1 border text-center mx-2' href='index.php?page=" . $i . "'> " . $i . "</a>";
-          }
-          ?>
-     </div> -->
-
-
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
-     <script src="js/bootstrap.bundle.min.js"></script>
-     <script>
-     function confirmDelete(student_id) {
-          if (confirm("Are you sure to delete this record?")) {
-               window.location.href = "delete.php?id=" + student_id;
+     for ($i = 1; $i <= $total_pages; $i++) {
+          if ($i === $page) {
+               echo '<span>' . $i . '</span> ';
+          } else {
+               echo '<a href="?page=' . $i . '">' . $i . '</a> ';
           }
      }
-     </script>
-</body>
 
-</html>
+     if ($page < $total_pages) {
+          echo '<a href="?page=' . ($page + 1) . '">Next</a>';
+     }
+     echo '</div>';
+     ?>
+</div>
+
+<?php
+require "footer.php";
+?>

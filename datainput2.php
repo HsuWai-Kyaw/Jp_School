@@ -1,5 +1,6 @@
 <?php
 require 'server/db.php';
+require 'header.php';
 $errors = [];
 
 if (isset($_GET['id'])) {
@@ -10,6 +11,7 @@ if (isset($_GET['id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
      if (isset($_POST['submit'])) {
+
           $id = $_POST['id'];
           $education_s_year = $_POST['education_s_year'] ?? [];
           $education_s_month = $_POST['education_s_month'] ?? [];
@@ -137,8 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/main.css">
 <form action="datainput2.php" method="POST" enctype="multipart/form-data">
      <input type="hidden" name="id" value="<?php echo $id; ?>">
      <div class="container shadow shadow">
@@ -279,12 +279,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          <td colspan="3">
                               <div class="d-flex justify-content-evenly pt-4">
                                    <div>
-                                        <label for="yes">有</label>
-                                        <input type="radio" name="rdoaccept" id="" value="有">
+                                        <label for="yes">賛成</label>
+                                        <input type="radio" name="rdoaccept" id="" value="賛成">
                                    </div>
                                    <div>
-                                        <label for="no">無し</label>
-                                        <input type="radio" name="rdoaccept" id="" value="無し">
+                                        <label for="no">反対</label>
+                                        <input type="radio" name="rdoaccept" id="" value="反対">
                                    </div>
                               </div>
                          </td>
