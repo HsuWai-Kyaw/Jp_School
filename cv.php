@@ -26,65 +26,64 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                <?php
                foreach ($result as $key => $value) { ?>
-               <tr>
-                    <th scope="col" colspan="6" class="topic"><b><span>
-                                   <center>
-                                        <h1>履歴書</h1>
-                                   </center>
-                              </span></b></th>
-                    <td rowspan="3" class="student_photo"><img src="img/<?= $value['photo'] ?>" alt="" id="img"
-                              class="w-100 h-100">
+                    <tr>
+                         <th scope="col" colspan="6" class="topic"><b><span>
+                                        <center>
+                                             <h1>履歴書</h1>
+                                        </center>
+                                   </span></b></th>
+                         <td rowspan="3" class="student_photo"><img src="img/<?= $value['photo'] ?>" alt="" id="img" class="w-100 h-100">
 
-                         <input class=" file" type="file" name="photo" id="file">
-                    </td>
-               </tr>
-               <tr>
+                              <input class=" file" type="file" name="photo" id="file">
+                         </td>
+                    </tr>
+                    <tr>
 
-                    <td><b>
-                              <h2>ID</h2>
-                         </b></td>
-                    <td colspan="5"><?= $value['student_id'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="7"><b>
-                              <h2>基本情報</h2>
-                         </b></td>
-               </tr>
-               <tr>
-                    <td colspan="2" for="student_name">名前</td>
-                    <td colspan="3"><?= $value['name'] ?></td>
-                    <td rowspan="2"><span>性別</span></td>
-                    <td rowspan="2">
-                         <?= $value['gender'] ?>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">ふりがな</td>
-                    <td colspan="3"><?= $value['kana_name'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">生年月日</td>
-                    <?php
+                         <td><b>
+                                   <h2>ID</h2>
+                              </b></td>
+                         <td colspan="5"><?= $value['student_id'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="7"><b>
+                                   <h2>基本情報</h2>
+                              </b></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2" for="student_name">名前</td>
+                         <td colspan="3"><?= $value['name'] ?></td>
+                         <td rowspan="2"><span>性別</span></td>
+                         <td rowspan="2">
+                              <?= $value['gender'] ?>
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">ふりがな</td>
+                         <td colspan="3"><?= $value['kana_name'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">生年月日</td>
+                         <?php
                          require "./utility/function.php";
                          ?>
-                    <td colspan="2"><?= $date ?></td>
+                         <td colspan="2"><?= $date ?></td>
 
 
-                    <td colspan="2">年齢</td>
-                    <td><?= $value['age'] ?>歳</td>
-               </tr>
-               <tr>
-                    <td colspan="2">国籍</td>
-                    <td colspan="2"><?= $value['country'] ?></td>
-                    <td colspan="2">信仰</td>
-                    <td><?= $value['religion'] ?></td>
-               </tr>
+                         <td colspan="2">年齢</td>
+                         <td><?= $value['age'] ?>歳</td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">国籍</td>
+                         <td colspan="2"><?= $value['country'] ?></td>
+                         <td colspan="2">信仰</td>
+                         <td><?= $value['religion'] ?></td>
+                    </tr>
 
 
-               <tr style="width: 250px;">
-                    <td colspan="2">身分証明書</td>
-                    <td colspan="2" style="width: 250px;">
-                         <?php
+                    <tr style="width: 250px;">
+                         <td colspan="2">身分証明書</td>
+                         <td colspan="2" style="width: 250px;">
+                              <?php
                               $nrc = "SELECT d.district, s.state_name, n.nrc_type, n.nrc_no
         FROM state s
         JOIN district d ON d.district_id = s.district_id
@@ -104,133 +103,133 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                               // die();
                               ?>
 
-                    </td>
-                    <td colspan="2">パスポート番号</td>
-                    <td><?= $value['passport'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">連絡先</td>
-                    <td colspan="5"><?= $value['address'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">住所</td>
-                    <td colspan="5"><?= $value['per_address'] ?></td>
+                         </td>
+                         <td colspan="2">パスポート番号</td>
+                         <td><?= $value['passport'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">連絡先</td>
+                         <td colspan="5"><?= $value['address'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">住所</td>
+                         <td colspan="5"><?= $value['per_address'] ?></td>
 
-               </tr>
-               <tr>
-                    <td colspan="2">電話番号</td>
-                    <td colspan="5"><?= $value['tel'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">入学日</td>
-                    <?php
+                    </tr>
+                    <tr>
+                         <td colspan="2">電話番号</td>
+                         <td colspan="5"><?= $value['tel'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">入学日</td>
+                         <?php
                          require "./utility/function.php";
                          ?>
-                    <td colspan="5"><?= $sdate ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">日本語能力</td>
+                         <td colspan="5"><?= $sdate ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">日本語能力</td>
 
-                    <td colspan="5"><?= $value['jp_lan_skill'] ?></td>
+                         <td colspan="5"><?= $value['jp_lan_skill'] ?></td>
 
-               </tr>
-               <tr>
-                    <td colspan="2">身長(センチ)</td>
-                    <td colspan="2">(<?= $value['height'] ?>)センチ
-                    </td>
-                    <td colspan="2">体重(キロ)</td>
-                    <td>(<?= $value['weight'] ?>)キロ</td>
-               </tr>
-               <tr>
-                    <td colspan="2">婚姻</td>
-                    <td colspan="2">
-                         <?= $value['marriage'] ?>
-                    </td>
-                    <td colspan="2">血液</td>
-                    <td><?= $value['blood_type'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">視力</td>
-                    <td colspan="2"><?= $value['eye_test'] ?></td>
-                    <td colspan="2">色覚異常</td>
-                    <td>
-                         <?= $value['color_blind'] ?>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">利き手</td>
-                    <td colspan="2">
-                         <?= $value['hand'] ?>
-                    </td>
-                    <td colspan="2">料理</td>
-                    <td>
-                         <?= $value['cook'] ?>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">病歴</td>
-                    <td colspan="2">
-                         <?= $value['disease'] ?>
-                    </td>
-                    <td colspan="2">肌上入れ墨.手術</td>
-                    <td>
-                         <?= $value['tattoo'] ?>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">タバコを吸っているか？</td>
-                    <td colspan="2">
-                         <?= $value['smoke'] ?>
-                    </td>
-                    <td colspan="2">お酒を飲んでいるか？</td>
-                    <td>
-                         <?= $value['drunk'] ?>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="2">得意科目</td>
-                    <td colspan=" 5"><?= $value['languages'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">受け取った証明書</td>
-                    <td colspan=" 5"><?= $value['certificate'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">志望動機</td>
-                    <td colspan=" 5"><?= $value['objective'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="2">集団生活経験</td>
-                    <td colspan="2">
-                         <?= $value['teamwork'] ?>
-                    </td>
-                    <td colspan="2">家族の月収</td>
-                    <td><?= $value['family_income'] ?>チャット
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="4">日本でやりたい仕事、ビザの種類</td>
-                    <td colspan="3"><?= $value['type_of_visa'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="4">3年間の貯蓄目標</td>
-                    <td colspan="3">
-                         (<?= $value['planning_money'] ?>)万 </td>
-               </tr>
-               <tr>
-                    <td colspan="4">帰国後やりたい仕事</td>
-                    <td colspan="3"><?= $value['myanmar_job'] ?></td>
-               </tr>
-               <tr>
-                    <td colspan="4">日本国に在留資格申請したことあるか？</td>
-                    <td colspan="3">
-                         <?= $value['form'] ?>
-                    </td>
-               </tr>
-               <tr>
-                    <td colspan="4">あったら、どんな資格を申請したか？</td>
-                    <td colspan="3"><?= $value['old_visa'] ?></td>
-               </tr>
+                    </tr>
+                    <tr>
+                         <td colspan="2">身長(センチ)</td>
+                         <td colspan="2">(<?= $value['height'] ?>)センチ
+                         </td>
+                         <td colspan="2">体重(キロ)</td>
+                         <td>(<?= $value['weight'] ?>)キロ</td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">婚姻</td>
+                         <td colspan="2">
+                              <?= $value['marriage'] ?>
+                         </td>
+                         <td colspan="2">血液</td>
+                         <td><?= $value['blood_type'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">視力</td>
+                         <td colspan="2"><?= $value['eye_test'] ?></td>
+                         <td colspan="2">色覚異常</td>
+                         <td>
+                              <?= $value['color_blind'] ?>
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">利き手</td>
+                         <td colspan="2">
+                              <?= $value['hand'] ?>
+                         </td>
+                         <td colspan="2">料理</td>
+                         <td>
+                              <?= $value['cook'] ?>
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">病歴</td>
+                         <td colspan="2">
+                              <?= $value['disease'] ?>
+                         </td>
+                         <td colspan="2">肌上入れ墨.手術</td>
+                         <td>
+                              <?= $value['tattoo'] ?>
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">タバコを吸っているか？</td>
+                         <td colspan="2">
+                              <?= $value['smoke'] ?>
+                         </td>
+                         <td colspan="2">お酒を飲んでいるか？</td>
+                         <td>
+                              <?= $value['drunk'] ?>
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">得意科目</td>
+                         <td colspan=" 5"><?= $value['languages'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">受け取った証明書</td>
+                         <td colspan=" 5"><?= $value['certificate'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">志望動機</td>
+                         <td colspan=" 5"><?= $value['objective'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="2">集団生活経験</td>
+                         <td colspan="2">
+                              <?= $value['teamwork'] ?>
+                         </td>
+                         <td colspan="2">家族の月収</td>
+                         <td><?= $value['family_income'] ?>チャット
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="4">日本でやりたい仕事、ビザの種類</td>
+                         <td colspan="3"><?= $value['type_of_visa'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="4">3年間の貯蓄目標</td>
+                         <td colspan="3">
+                              (<?= $value['planning_money'] ?>)万 </td>
+                    </tr>
+                    <tr>
+                         <td colspan="4">帰国後やりたい仕事</td>
+                         <td colspan="3"><?= $value['myanmar_job'] ?></td>
+                    </tr>
+                    <tr>
+                         <td colspan="4">日本国に在留資格申請したことあるか？</td>
+                         <td colspan="3">
+                              <?= $value['form'] ?>
+                         </td>
+                    </tr>
+                    <tr>
+                         <td colspan="4">あったら、どんな資格を申請したか？</td>
+                         <td colspan="3"><?= $value['old_visa'] ?></td>
+                    </tr>
 
                <?php } ?>
           </table>
@@ -265,13 +264,13 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                <tbody>
 
                     <?php foreach ($result as $row) { ?>
-                    <tr>
-                         <td><?= $row['education_s_year'] ?> Year <?= $row['education_s_month'] ?> Month</td>
-                         <td><?= $row['education_e_year'] ?> Year <?= $row['education_e_month'] ?> Month</td>
-                         <td colspan="2"><?= $row['school_name'] ?></td>
-                         <td colspan="2"><?= $row['specialized_subject'] ?></td>
-                         <td><?= $row['skills'] ?></td>
-                    </tr>
+                         <tr>
+                              <td><?= $row['education_s_year'] ?> 年 <?= $row['education_s_month'] ?> 月</td>
+                              <td><?= $row['education_e_year'] ?> 年 <?= $row['education_e_month'] ?> 月</td>
+                              <td colspan="2"><?= $row['school_name'] ?></td>
+                              <td colspan="2"><?= $row['specialized_subject'] ?></td>
+                              <td><?= $row['skills'] ?></td>
+                         </tr>
                     <?php } ?>
 
                </tbody>
@@ -303,13 +302,13 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                </thead>
                <tbody>
                     <?php foreach ($result as $row) { ?>
-                    <tr>
-                         <td><?= $row['job_s_year'] ?> Year <?= $row['job_s_month'] ?> Month</td>
-                         <td><?= $row['job_e_year'] ?> Year <?= $row['job_e_month'] ?> Month</td>
-                         <td colspan="2"><?= $row['company_name'] ?></td>
-                         <td colspan="2"><?= $row['job_type_and_position'] ?></td>
-                         <td><?= $row['income'] ?></td>
-                    </tr>
+                         <tr>
+                              <td><?= $row['job_s_year'] ?> 年 <?= $row['job_s_month'] ?> 月</td>
+                              <td><?= $row['job_e_year'] ?> 年 <?= $row['job_e_month'] ?> 月</td>
+                              <td colspan="2"><?= $row['company_name'] ?></td>
+                              <td colspan="2"><?= $row['job_type_and_position'] ?></td>
+                              <td><?= $row['income'] ?></td>
+                         </tr>
                     <?php } ?>
                </tbody>
           </table>
@@ -343,16 +342,16 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                <tbody>
                     <?php foreach ($result as $row) { ?>
 
-                    <tr>
-                         <td colspan="2"><?= $row['family_member'] ?></td>
-                         <td><?= $row['family_member_type'] ?></td>
-                         <td><?= $row['family_member_age'] ?></td>
-                         <td><?= $row['family_member_job'] ?></td>
-                         <td><?= $row['cbtype'] === "stay" ? "&#10003;" : "" ?></td>
-                         <td><?= $row['cbtype'] === "away" ? "&#10003;" : "" ?></td>
+                         <tr>
+                              <td colspan="2"><?= $row['family_member'] ?></td>
+                              <td><?= $row['family_member_type'] ?></td>
+                              <td><?= $row['family_member_age'] ?></td>
+                              <td><?= $row['family_member_job'] ?></td>
+                              <td><?= $row['cbtype'] === "stay" ? "&#10003;" : "" ?></td>
+                              <td><?= $row['cbtype'] === "away" ? "&#10003;" : "" ?></td>
 
 
-                    </tr>
+                         </tr>
 
                     <?php } ?>
 

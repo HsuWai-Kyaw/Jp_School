@@ -170,11 +170,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="male">男</label>
-                                   <input type="radio" name="rdogender" id="male" value="男" style="width:10px;">
+                                   <input type="radio" name="rdogender" id="male" value="男" style="width:20px;">
                               </div>
                               <div>
                                    <label for="female">女</label>
-                                   <input type="radio" name="rdogender" id="female" value="女" style="width:10px;">
+                                   <input type="radio" name="rdogender" id="female" value="女" style="width:20px;">
                               </div>
                          </div>
 
@@ -270,11 +270,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdomarriage" id="yes" value="有" style="width:10px;">
+                                   <input type="radio" name="rdomarriage" id="yes" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdomarriage" id="no" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdomarriage" id="no" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -290,11 +290,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdocolorblind" id="yes" value="有" style="width:10px;">
+                                   <input type="radio" name="rdocolorblind" id="yes" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdocolorblind" id="no" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdocolorblind" id="no" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -305,11 +305,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="left">右</label>
-                                   <input type="radio" name="rdohand" id="left" value="右" style="width:10px;">
+                                   <input type="radio" name="rdohand" id="left" value="右" style="width:20px;">
                               </div>
                               <div>
                                    <label for="right">左</label>
-                                   <input type="radio" name="rdohand" id="right" value="左" style="width:10px;">
+                                   <input type="radio" name="rdohand" id="right" value="左" style="width:20px;">
                               </div>
                          </div>
 
@@ -319,11 +319,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdocook" value="有" style="width:10px;">
+                                   <input type="radio" name="rdocook" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdocook" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdocook" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -334,11 +334,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdodisease" value="有" style="width:10px;">
+                                   <input type="radio" name="rdodisease" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdodisease" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdodisease" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -347,11 +347,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdotattoo" value="有" style="width:10px;">
+                                   <input type="radio" name="rdotattoo" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdotattoo" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdotattoo" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -362,11 +362,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdosmoke" value="有" style="width:10px;">
+                                   <input type="radio" name="rdosmoke" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdosmoke" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdosmoke" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -375,11 +375,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdodrunk" value="有" style="width:10px;">
+                                   <input type="radio" name="rdodrunk" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdodrunk" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdodrunk" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -402,11 +402,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdoteamwork" value="有" style="width:10px;">
+                                   <input type="radio" name="rdoteamwork" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdoteamwork" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdoteamwork" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>
@@ -434,11 +434,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <div class="d-flex justify-content-evenly pt-4">
                               <div>
                                    <label for="yes">有</label>
-                                   <input type="radio" name="rdoform" value="有" style="width:10px;">
+                                   <input type="radio" name="rdoform" value="有" style="width:20px;">
                               </div>
                               <div>
                                    <label for="no">無し</label>
-                                   <input type="radio" name="rdoform" value="無し" style="width:10px;">
+                                   <input type="radio" name="rdoform" value="無し" style="width:20px;">
                               </div>
                          </div>
                     </td>

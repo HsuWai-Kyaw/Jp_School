@@ -42,12 +42,10 @@ $student = $statement->fetchAll(PDO::FETCH_ASSOC);
                          <div class="mb-3">
                               <label for="cbtype">同居</label>
 
-                              <input type="checkbox" value="stay" name="cbtype" class="stay"
-                                   onclick="disableOtherCheckbox(event)">
+                              <input type="checkbox" value="stay" name="cbtype" class="stay" onclick="disableOtherCheckbox(event)">
                               <label for="cbtype">別居</label>
 
-                              <input type="checkbox" value="away" name="cbtype" class="away"
-                                   onclick="disableOtherCheckbox(event)">
+                              <input type="checkbox" value="away" name="cbtype" class="away" onclick="disableOtherCheckbox(event)">
 
                          </div>
                     </div>
@@ -94,12 +92,10 @@ $student = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                          <div class="mb-3">
                               <label for="cbtype">同居</label>
-                              <input type="checkbox" value="stay" id="cbtype" name="cbtype" class="stay"
-                                   onclick="disableOtherCheckbox(event)">
+                              <input type="checkbox" value="stay" id="cbtype" name="cbtype" class="stay" onclick="disableOtherCheckbox(event)">
 
                               <label for="cbtype">別居</label>
-                              <input type="checkbox" value="away" id="cbtype" name="cbtype" class="away"
-                                   onclick="disableOtherCheckbox(event)">
+                              <input type="checkbox" value="away" id="cbtype" name="cbtype" class="away" onclick="disableOtherCheckbox(event)">
 
                          </div>
 
@@ -120,8 +116,7 @@ $student = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <div class="card-header">
                          <h4>家族
 
-                              <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
-                                   data-bs-target="#familyAddModal">
+                              <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#familyAddModal">
                                    Add +
                               </button>
                          </h4>
@@ -147,31 +142,24 @@ $student = $statement->fetchAll(PDO::FETCH_ASSOC);
                               ?>
 
 
-                              <tr id="">
-                                   <td><input type="text" name="family_member" class="family_member"
-                                             value="<?= $result['family_member'] ?? "" ?>"></td>
-                                   <td><input type="text" name="family_member_type" class="family_member_type"
-                                             value="<?= $result['family_member_type'] ?? "" ?>">
-                                   </td>
-                                   <td><input type="number" name="family_member_age" class="family_member_age"
-                                             value="<?= $result['family_member_age'] ?? "" ?>" style="width: 50px;">
-                                   </td>
-                                   <td><input type="text" name="family_member_job" class="family_member_job"
-                                             value="<?= $result['family_member_job'] ?? "" ?>" style="width: 50px;">
-                                   </td>
+                                   <tr id="">
+                                        <td><input type="text" name="family_member" class="family_member" value="<?= $result['family_member'] ?? "" ?>"></td>
+                                        <td><input type="text" name="family_member_type" class="family_member_type" value="<?= $result['family_member_type'] ?? "" ?>">
+                                        </td>
+                                        <td><input type="number" name="family_member_age" class="family_member_age" value="<?= $result['family_member_age'] ?? "" ?>" style="width: 50px;">
+                                        </td>
+                                        <td><input type="text" name="family_member_job" class="family_member_job" value="<?= $result['family_member_job'] ?? "" ?>" style="width: 50px;">
+                                        </td>
 
-                                   <td><?= $result['cbtype'] === "stay" ? "&#10003;" : "" ?></td>
-                                   <td><?= $result['cbtype'] === "away" ? "&#10003;" : "" ?></td>
+                                        <td><?= $result['cbtype'] === "stay" ? "&#10003;" : "" ?></td>
+                                        <td><?= $result['cbtype'] === "away" ? "&#10003;" : "" ?></td>
 
-                                   <td>
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#familyEditModal"
-                                             value="<?= $result['family_info_id']; ?>"
-                                             class="editFamily btn btn-warning">Edit</button>
-                                        <button type="button" value="<?= $result['family_info_id']; ?>"
-                                             class="deleteStudent btn btn-danger d-none">Delete</button>
+                                        <td>
+                                             <button type="button" data-bs-toggle="modal" data-bs-target="#familyEditModal" value="<?= $result['family_info_id']; ?>" class="editFamily btn btn-warning">Edit</button>
+                                             <button type="button" value="<?= $result['family_info_id']; ?>" class="deleteStudent btn btn-danger d-none">Delete</button>
 
-                                   </td>
-                              </tr>
+                                        </td>
+                                   </tr>
 
                               <?php } ?>
 
@@ -205,148 +193,148 @@ $student = $statement->fetchAll(PDO::FETCH_ASSOC);
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
 <script>
-$(document).on('submit', '#familyAdd', function(e) {
-     e.preventDefault();
-     // alert('G');
-     var formData = new FormData(this)
-     // const values = [...formData.entries()];
-     // console.log(values);
+     $(document).on('submit', '#familyAdd', function(e) {
+          e.preventDefault();
+          // alert('G');
+          var formData = new FormData(this)
+          // const values = [...formData.entries()];
+          // console.log(values);
 
-     // alert(formData);
-     // console.log('formData :>> ', formData);
-     formData.append('add_family', true);
-     location.reload();
+          // alert(formData);
+          // console.log('formData :>> ', formData);
+          formData.append('add_family', true);
+          location.reload();
 
-     $.ajax({
-          type: "POST",
-          url: "family_data_update.php",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(response) {
-               var res = jQuery.parseJSON(response);
-               if (res.status == 422) {
-                    $('#errorMessage').removeClass('d-none');
-                    $('#errorMessage').text(res.message);
-               } else if (res.status == 200) {
+          $.ajax({
+               type: "POST",
+               url: "family_data_update.php",
+               data: formData,
+               processData: false,
+               contentType: false,
+               success: function(response) {
+                    var res = jQuery.parseJSON(response);
+                    if (res.status == 422) {
+                         $('#errorMessage').removeClass('d-none');
+                         $('#errorMessage').text(res.message);
+                    } else if (res.status == 200) {
 
-                    $('#errorMessage').addClass('d-none');
-                    $('#familyAddModal').modal('hide');
-                    $('#familyAdd')[0].reset();
+                         $('#errorMessage').addClass('d-none');
+                         $('#familyAddModal').modal('hide');
+                         $('#familyAdd')[0].reset();
 
-                    alertify.set('notifier', 'position', 'top-right');
-                    alertify.success(res.message);
+                         alertify.set('notifier', 'position', 'top-right');
+                         alertify.success(res.message);
 
-                    $('#myfamilyTable').load(location.href + " #myfamilyTable");
+                         $('#myfamilyTable').load(location.href + " #myfamilyTable");
 
-               } else if (res.status == 500) {
-                    alert(res.message);
-               }
-          }
-     });
-});
-$(document).on('click', '.editFamily', function() {
-
-     var family_info_id = $(this).val();
-     // alert(family_info_id);
-     $.ajax({
-          type: "GET",
-          url: "family_data_update.php?id=" + family_info_id,
-          success: function(response) {
-               // console.log('====================================');
-               // console.log(response);
-               // console.log('====================================');
-               // var res = jQuery.parseJSON('{ "name": "John" }');
-               var res = jQuery.parseJSON(response);
-               // console.log(res);
-
-               if (res.status == 404) {
-                    alert(res.message);
-               } else if (res.status === 200) {
-                    // $('#student_id').val(res.data.id);
-                    $('#family_info_id').val(res.data.family_info_id);
-                    $('#family_member').val(res.data.family_member);
-                    $('#family_member_type').val(res.data.family_member_type);
-                    $('#family_member_age').val(res.data.family_member_age);
-                    $('#family_member_job').val(res.data.family_member_job);
-
-                    let res223 = $('#cbtype').val(res.data.cbtype);
-                    // console.log('====================================');
-                    // console.log(res223.val());
-                    // console.log('====================================');
-                    if (res223.val() === 'away') {
-                         $('.away').attr('checked', true);
-                         $('.stay').removeAttr('checked', true);
-
-                    } else {
-                         $('.away').removeAttr('checked', true);
-
-                         $('.stay').attr('checked', true);
+                    } else if (res.status == 500) {
+                         alert(res.message);
                     }
-
-                    $('#familyEditModal').modal('show');
                }
-          }
+          });
      });
-});
+     $(document).on('click', '.editFamily', function() {
 
-$(document).on('submit', '#updateFamily', function(e) {
-     e.preventDefault();
+          var family_info_id = $(this).val();
+          // alert(family_info_id);
+          $.ajax({
+               type: "GET",
+               url: "family_data_update.php?id=" + family_info_id,
+               success: function(response) {
+                    // console.log('====================================');
+                    // console.log(response);
+                    // console.log('====================================');
+                    // var res = jQuery.parseJSON('{ "name": "John" }');
+                    var res = jQuery.parseJSON(response);
+                    // console.log(res);
 
-     var formData = new FormData(this);
-     // const values = [...formData.entries()];
-     // console.log(values);
+                    if (res.status == 404) {
+                         alert(res.message);
+                    } else if (res.status === 200) {
+                         // $('#student_id').val(res.data.id);
+                         $('#family_info_id').val(res.data.family_info_id);
+                         $('#family_member').val(res.data.family_member);
+                         $('#family_member_type').val(res.data.family_member_type);
+                         $('#family_member_age').val(res.data.family_member_age);
+                         $('#family_member_job').val(res.data.family_member_job);
 
-     formData.append("update_family", true);
+                         let res223 = $('#cbtype').val(res.data.cbtype);
+                         // console.log('====================================');
+                         // console.log(res223.val());
+                         // console.log('====================================');
+                         if (res223.val() === 'away') {
+                              $('.away').attr('checked', true);
+                              $('.stay').removeAttr('checked', true);
 
-     $.ajax({
-          type: "POST",
-          url: "family_data_update.php",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(response) {
-               console.log('====================================');
-               console.log(response);
-               console.log('====================================');
-               var res = jQuery.parseJSON(response);
+                         } else {
+                              $('.away').removeAttr('checked', true);
 
-               if (res.status == 422) {
-                    $('#errorMessageUpdate').removeClass('d-none');
-                    $('#errorMessageUpdate').text(res.message);
+                              $('.stay').attr('checked', true);
+                         }
 
-               } else if (res.status == 200) {
-
-                    $('#errorMessageUpdate').addClass('d-none');
-
-                    alertify.set('notifier', 'position', 'top-right');
-                    alertify.success(res.message);
-
-                    $('#familyEditModal').modal('hide');
-                    $('#updateFamily')[0].reset();
-
-                    $('#myfamilyTable').load(location.href + " #myfamilyTable");
-                    window.location.reload();
-
-               } else if (res.status == 500) {
-                    alert(res.message);
+                         $('#familyEditModal').modal('show');
+                    }
                }
-          }
+          });
      });
-});
 
-// $(document).on('click', '.deleteStudent', function(e) {
-//      e.preventDefault();
-//      if (confirm('Sure?')) {
-//           var id = $(this).val();
-//           $.ajax({
-//                type: "GET",
-//                url: "edu_data_update.php?family_info_id = " + id,
+     $(document).on('submit', '#updateFamily', function(e) {
+          e.preventDefault();
 
-//                success: function(response) {
+          var formData = new FormData(this);
+          // const values = [...formData.entries()];
+          // console.log(values);
 
-//                }
-//           });
-//      }
-// });
+          formData.append("update_family", true);
+
+          $.ajax({
+               type: "POST",
+               url: "family_data_update.php",
+               data: formData,
+               processData: false,
+               contentType: false,
+               success: function(response) {
+                    console.log('====================================');
+                    console.log(response);
+                    console.log('====================================');
+                    var res = jQuery.parseJSON(response);
+
+                    if (res.status == 422) {
+                         $('#errorMessageUpdate').removeClass('d-none');
+                         $('#errorMessageUpdate').text(res.message);
+
+                    } else if (res.status == 200) {
+
+                         $('#errorMessageUpdate').addClass('d-none');
+
+                         alertify.set('notifier', 'position', 'top-right');
+                         alertify.success(res.message);
+
+                         $('#familyEditModal').modal('hide');
+                         $('#updateFamily')[0].reset();
+
+                         $('#myfamilyTable').load(location.href + " #myfamilyTable");
+                         window.location.reload();
+
+                    } else if (res.status == 500) {
+                         alert(res.message);
+                    }
+               }
+          });
+     });
+
+     // $(document).on('click', '.deleteStudent', function(e) {
+     //      e.preventDefault();
+     //      if (confirm('Sure?')) {
+     //           var id = $(this).val();
+     //           $.ajax({
+     //                type: "GET",
+     //                url: "edu_data_update.php?family_info_id = " + id,
+
+     //                success: function(response) {
+
+     //                }
+     //           });
+     //      }
+     // });
 </script>

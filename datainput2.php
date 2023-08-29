@@ -159,14 +159,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <tr id="education_row_template">
                          <td>
                               <div class="flex">
-                                   <input style="width: 30px;" type="text" name="education_s_year[]" class="education_s_year">年
-                                   <input style="width: 30px;" type="text" name="education_s_month[]" class="education_s_month">月
+                                   <input style="width: 80px;" type="text" name="education_s_year[]" class="education_s_year">年
+                                   <input style="width: 80px;" type="text" name="education_s_month[]" class="education_s_month">月
                               </div>
                          </td>
                          <td>
                               <div class="flex">
-                                   <input style="width: 30px;" type="text" name="education_e_year[]" class="education_e_year">年
-                                   <input style="width: 30px;" type="text" name="education_e_month[]" class="education_e_month">月
+                                   <input style="width: 80px;" type="text" name="education_e_year[]" class="education_e_year">年
+                                   <input style="width: 80px;" type="text" name="education_e_month[]" class="education_e_month">月
                               </div>
                          </td>
                          <td colspan="2"><input type="text" name="school_name[]" class="school_name"></td>
@@ -196,20 +196,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <tr id="job_row_template">
                          <td>
                               <div class="flex">
-                                   <input style="width: 30px;" type="text" name="job_s_year[]" class="job_s_year">年
-                                   <input style="width: 30px;" type="text" name="job_s_month[]" class="job_s_month">月
+                                   <input style="width: 80px;" type="text" name="job_s_year[]" class="job_s_year">年
+                                   <input style="width: 80px;" type="text" name="job_s_month[]" class="job_s_month">月
                               </div>
                          </td>
                          <td>
                               <div class="flex">
-                                   <input style="width: 30px;" type="text" name="job_e_year[]" class="job_e_year">年
-                                   <input style="width: 30px;" type="text" name="job_e_month[]" class="job_e_month">月
+                                   <input style="width: 80px;" type="text" name="job_e_year[]" class="job_e_year">年
+                                   <input style="width: 80px;" type="text" name="job_e_month[]" class="job_e_month">月
                               </div>
                          </td>
                          <td colspan="2"><input type="text" name="company_name[]" class="company_name"></td>
                          <td colspan="2"><input type="text" name="job_type_and_position[]" class="job_type_and_position">
                          </td>
-                         <td><input type="number" name="income[]" class="income" style="width: 50px;"></td>
+                         <td><input type="number" name="income[]" class="income" style="width: 80px;"></td>
                     </tr>
 
                </tbody>
@@ -222,23 +222,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <table id="family_table" class="table table-sm table-bordered border-dark">
                <thead>
                     <tr>
-                         <td colspan="2">name</td>
-                         <td>type</td>
-                         <td>age</td>
-                         <td>job</td>
-                         <td>stay</td>
-                         <td>away</td>
+                         <td colspan="2">家族氏名</td>
+                         <td>続柄</td>
+                         <td>年齢</td>
+                         <td>職業</td>
+                         <td>同居</td>
+                         <td>別居</td>
                     </tr>
 
                </thead>
                <tbody>
 
                     <tr id="">
-                         <td colspan="2"><input type="text" name="family_member[]" class="family_member"></td>
-                         <td><input type="text" name="family_member_type[]" class="family_member_type">
+                         <td colspan="2"><input type="text" name="family_member[]" class="family_member" style="width: 120px;"></td>
+                         <td><input type="text" name="family_member_type[]" class="family_member_type" style="width: 120px;">
                          </td>
-                         <td><input type="number" name="family_member_age[]" class="family_member_age" style="width: 50px;"></td>
-                         <td><input type="text" name="family_member_job[]" class="family_member_job" style="width: 50px;"></td>
+                         <td><input type="number" name="family_member_age[]" class="family_member_age" style="width: 80px;"></td>
+                         <td><input type="text" name="family_member_job[]" class="family_member_job" style="width: 150px;"></td>
                          </td>
                          <!-- <td>
                               <select name="cbtype[]" id="">

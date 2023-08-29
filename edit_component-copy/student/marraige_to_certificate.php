@@ -2,7 +2,7 @@
 foreach ($student as $key => $value) {
 ?>
      <tr>
-          <td colspan="2">Marriage</td>
+          <td colspan="2">婚姻</td>
           <td colspan="2">
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -15,13 +15,13 @@ foreach ($student as $key => $value) {
                     </div>
                </div>
           </td>
-          <td colspan="2">Blood Type</td>
+          <td colspan="2">血液</td>
           <td><input type="text" name="blood_type" value="<?= $value['blood_type'] ?>"></td>
      </tr>
      <tr>
-          <td colspan="2">Eye Test</td>
+          <td colspan="2">視力</td>
           <td colspan="2"><input type="text" name="eye_test" value="<?= $value['eye_test'] ?>"></td>
-          <td colspan="2">Color Blind</td>
+          <td colspan="2">色覚異常</td>
           <td>
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -36,7 +36,7 @@ foreach ($student as $key => $value) {
           </td>
      </tr>
      <tr>
-          <td colspan="2">Hand</td>
+          <td colspan="2">利き手</td>
           <td colspan="2">
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -49,7 +49,7 @@ foreach ($student as $key => $value) {
                     </div>
                </div>
           </td>
-          <td colspan="2">Cooking Skills</td>
+          <td colspan="2">料理</td>
           <td>
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -64,7 +64,7 @@ foreach ($student as $key => $value) {
           </td>
      </tr>
      <tr>
-          <td colspan="2">Disease</td>
+          <td colspan="2">病歴</td>
           <td colspan="2">
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -77,7 +77,7 @@ foreach ($student as $key => $value) {
                     </div>
                </div>
           </td>
-          <td colspan="2">Tattoo</td>
+          <td colspan="2">肌上入れ墨.手術</td>
           <td>
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -92,7 +92,7 @@ foreach ($student as $key => $value) {
           </td>
      </tr>
      <tr>
-          <td colspan="2">Smoke</td>
+          <td colspan="2">タバコを吸っているか？</td>
           <td colspan="2">
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -105,7 +105,7 @@ foreach ($student as $key => $value) {
                     </div>
                </div>
           </td>
-          <td colspan="2">Drunk</td>
+          <td colspan="2">お酒を飲んでいるか？</td>
           <td>
                <div class="d-flex justify-content-evenly pt-4">
                     <div>
@@ -120,11 +120,11 @@ foreach ($student as $key => $value) {
           </td>
      </tr>
      <tr>
-          <td colspan="2">Proficient Subjects</td>
+          <td colspan="2">得意科目</td>
           <td colspan="5"><input type="text" name="languages" value="<?= $value['languages'] ?? '' ?>"></td>
      </tr>
      <tr>
-          <td colspan="2">Received Certificates</td>
+          <td colspan="2">受け取った証明書</td>
           <td colspan="5"><input type="text" name="certificate" value="<?= $value['certificate'] ?? '' ?>"></td>
      </tr>
 <?php

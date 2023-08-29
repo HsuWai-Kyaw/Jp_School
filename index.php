@@ -2,25 +2,40 @@
 require "server/db.php";
 require "header.php";
 
-// print_r($result);
-// die();
+$record_per_page = 20; // Number of items to display per page
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$start_page = ($page - 1) * $record_per_page;
 
-if (isset($_POST['submit'])) {
-     $keyword = $_POST['search'];
-     $sql = "SELECT * FROM `student` WHERE `student_id` LIKE :keyword";
-     $q = $pdo->prepare($sql);
-     $q->bindValue(':keyword', '%' . $keyword . '%');
-     $q->execute();
-     $result = $q->fetchAll(PDO::FETCH_ASSOC);
-} else {
-     $sql = "SELECT `student_id`, `name`, `kana_name`, `passport`, `tel`, `jp_lan_skill` FROM `student` ORDER BY student_id DESC";
-     $statement = $pdo->prepare($sql);
-     $statement->execute();
-     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+// Initialize the search query variable
+$search_query = '';
+
+// Check if search query is provided
+if (isset($_GET['q'])) {
+     $search_query = trim($_GET['q']);
 }
 
-?>
+// Modify the query to include the search condition if search query is provided
+$student_query = "SELECT * FROM student";
+if (!empty($search_query)) {
+     $student_query .= " WHERE name LIKE :search_query OR student_id LIKE :search_query OR kana_name LIKE :search_query";
+}
 
+$student_query .= " LIMIT :start_page, :record_per_page";
+
+$s = $pdo->prepare($student_query);
+
+// Bind search query parameter if it's provided
+if (!empty($search_query)) {
+     $search_param = "%$search_query%";
+     $s->bindParam(':search_query', $search_param, PDO::PARAM_STR);
+}
+
+$s->bindParam(":start_page", $start_page, PDO::PARAM_INT);
+$s->bindParam(":record_per_page", $record_per_page, PDO::PARAM_INT);
+$s->execute();
+$results = $s->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 <div class="header w-auto shadow m-auto p-3">
      <nav class="navbar navbar-expand-lg bg-body-tertiary">
           <div class="container-fluid">
@@ -38,9 +53,9 @@ if (isset($_POST['submit'])) {
                          </li>
 
                     </ul>
-                    <form action="index.php" class="d-flex" method="POST" role="search">
-                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                         <button class="btn btn-outline-success" type="submit" name="submit">Search</button>
+                    <form action="" method="GET">
+                         <input type="text" name="q" value="<?= htmlentities($search_query) ?>" placeholder="Search by name, kana name, or passport">
+                         <input type="submit" value="Search" class="btn btn-success">
                     </form>
                </div>
           </div>
@@ -51,7 +66,7 @@ if (isset($_POST['submit'])) {
      <table class="table m-3 align-middle mb-0 bg-white">
           <thead>
                <tr>
-                    <!-- <th><input type="checkbox" name="selectedStudents[]" value="<?= $value['student_id'] ?>"></th> -->
+
                     <th scope="col">No</th>
                     <th scope="col">Student ID</th>
                     <th scope="col">名前</th>
@@ -64,20 +79,10 @@ if (isset($_POST['submit'])) {
           </thead>
           <?php
 
-          $record_per_page = 5; // Number of items to display per page
-          $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-          $start_page = ($page - 1) * $record_per_page;
-          $student_query = "SELECT * FROM student LIMIT :start_page,:record_per_page";
-          $s = $pdo->prepare($student_query);
-          $s->bindParam(":start_page", $start_page, PDO::PARAM_INT);
-          $s->bindParam(":record_per_page", $record_per_page, PDO::PARAM_INT);
-          $s->execute();
-          $allusers = $s->fetchAll(PDO::FETCH_ASSOC);
-
           ?>
           <tbody>
 
-               <?php foreach ($allusers as $key => $value) { ?>
+               <?php foreach ($results as $key => $value) { ?>
 
                     <!-- print_r($value['name']); -->
 
@@ -104,31 +109,40 @@ if (isset($_POST['submit'])) {
      </table>
 
 </div>
-
-<div class="pagination m-auto " style="width: fit-content;">
+<div class="pagination m-auto" style="width: fit-content;">
      <?php
-     $page_qry = "SELECT * FROM student ORDER BY student_id DESC";
+     // Count total records for pagination
+     $page_qry = "SELECT * FROM student";
+     if (!empty($search_query)) {
+          $page_qry .= " WHERE name LIKE :search_query OR kana_name LIKE :search_query OR passport LIKE :search_query";
+     }
+
      $page_res = $pdo->prepare($page_qry);
+
+     // Bind search query parameter if it's provided
+     if (!empty($search_query)) {
+          $page_res->bindParam(':search_query', $search_param, PDO::PARAM_STR);
+     }
+
      $page_res->execute();
      $total_records = $page_res->rowCount();
-     // print_r($total_records);
-     // die();
+
      $total_pages = ceil($total_records / $record_per_page);
      echo '<div>';
      if ($page > 1) {
-          echo '<a href="?page=' . ($page - 1) . '">Previous</a> ';
+          echo '<a href="?page=' . ($page - 1) . '&q=' . urlencode($search_query) . '">Previous</a> ';
      }
 
      for ($i = 1; $i <= $total_pages; $i++) {
           if ($i === $page) {
                echo '<span>' . $i . '</span> ';
           } else {
-               echo '<a href="?page=' . $i . '">' . $i . '</a> ';
+               echo '<a href="?page=' . $i . '&q=' . urlencode($search_query) . '">' . $i . '</a> ';
           }
      }
 
      if ($page < $total_pages) {
-          echo '<a href="?page=' . ($page + 1) . '">Next</a>';
+          echo '<a href="?page=' . ($page + 1) . '&q=' . urlencode($search_query) . '">Next</a>';
      }
      echo '</div>';
      ?>
